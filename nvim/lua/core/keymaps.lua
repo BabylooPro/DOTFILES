@@ -12,6 +12,7 @@ local opts = { noremap = true, silent = true }
 vim.keymap.set('n', '<C-s>', '<cmd> w <CR>', opts) -- SAVE FILE
 vim.keymap.set('n', '<leader>sn', '<cmd>noautocmd w <CR>', opts) -- SAVE FILE WITHOUT AUTO-FORMATTING
 vim.keymap.set('n', '<C-q>', '<cmd> q <CR>', opts) -- QUIT FILE
+vim.keymap.set('c', 'q', 'qa', {}) -- MAKE :q EXECUTE :qa
 
 -- DELETE OPERATIONS --
 vim.keymap.set('n', 'x', '"_x', opts) -- DELETE CHARACTER WITHOUT COPYING TO REGISTER
