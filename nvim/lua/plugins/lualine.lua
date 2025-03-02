@@ -1,24 +1,60 @@
 return {
     'nvim-lualine/lualine.nvim',
     config = function()
+        local colors = require('onedarkpro.helpers').get_colors()
+
+        -- CUSTOM THEME --
+        local custom_theme = {
+            normal = {
+                a = { fg = colors.fg, bg = colors.line, gui = 'bold' },
+                b = { fg = colors.gray, bg = colors.bg },
+                c = { fg = colors.comment, bg = colors.bg }
+            },
+            insert = {
+                a = { fg = colors.fg, bg = colors.highlight, gui = 'bold' },
+                b = { fg = colors.gray, bg = colors.bg }
+            },
+            visual = {
+                a = { fg = colors.fg, bg = colors.selection, gui = 'bold' },
+                b = { fg = colors.gray, bg = colors.bg }
+            },
+            replace = {
+                a = { fg = colors.fg, bg = colors.line, gui = 'bold' },
+                b = { fg = colors.gray, bg = colors.bg }
+            },
+            command = {
+                a = { fg = colors.fg, bg = colors.highlight, gui = 'bold' },
+                b = { fg = colors.gray, bg = colors.bg }
+            },
+            inactive = {
+                a = { fg = colors.comment, bg = colors.bg },
+                b = { fg = colors.comment, bg = colors.bg },
+                c = { fg = colors.comment, bg = colors.bg }
+            }
+        }
+
+        -- MODE --
         local mode = {
             'mode',
             fmt = function(str)
                 return ' ' .. str
-                -- return ' ' .. str:sub(1, 1) -- displays only the first character of the mode
+                -- return ' ' .. str:sub(1, 1) -- DISPLAYS ONLY THE FIRST CHARACTER OF THE MODE
             end,
         }
 
+        -- FILENAME --
         local filename = {
             'filename',
-            file_status = true, -- displays file status (readonly status, modified status)
-            path = 1, -- 0 = just filename, 1 = relative path, 2 = absolute path
+            file_status = true, -- DISPLAYS FILE STATUS (READONLY STATUS, MODIFIED STATUS)
+            path = 1, -- 0 = JUST FILENAME, 1 = RELATIVE PATH, 2 = ABSOLUTE PATH
         }
 
+        -- HIDE IN WIDTH --
         local hide_in_width = function()
             return vim.fn.winwidth(0) > 100
         end
 
+        -- DIAGNOSTICS --
         local diagnostics = {
             'diagnostics',
             sources = { 'nvim_diagnostic' },
@@ -30,17 +66,19 @@ return {
             cond = hide_in_width,
         }
 
+        -- DIFF --
         local diff = {
             'diff',
             colored = false,
-            symbols = { added = ' ', modified = ' ', removed = ' ' }, -- changes diff symbols
+            symbols = { added = ' ', modified = ' ', removed = ' ' }, -- CHANGE DIFF SYMBOLS
             cond = hide_in_width,
         }
 
+        -- SETUP --
         require('lualine').setup {
             options = {
                 icons_enabled = true,
-                theme = 'nord', -- Set theme based on environment variable
+                theme = custom_theme,
                 -- Some useful glyphs:
                 -- https://www.nerdfonts.com/cheat-sheet
                 --
@@ -48,7 +86,7 @@ return {
                 component_separators = { left = '', right = '' },
                 disabled_filetypes = { 'alpha', 'neo-tree' },
                 always_divide_middle = true,
-                globalstatus = true, -- Make lualine global to avoid being cut by neo-tree
+                globalstatus = true, -- MAKE LUALINE GLOBAL TO AVOID BEING CUT BY NEO-TREE
             },
             sections = {
                 lualine_a = { mode },
