@@ -355,7 +355,19 @@ return {
         }
 
         vim.cmd [[nnoremap \ :Neotree reveal<cr>]]
-        vim.keymap.set('n', '<leader>e', ':Neotree focus position=right<CR>', { noremap = true, silent = true }) -- FOCUS FILE EXPLORER IN RITH POSITION
+
+        -- LEADER KEYMAP TO FOCUS NEOTREE TO CODE OR VICE VERSA
+        vim.keymap.set('n', '<leader>e', function()
+            -- COUNT NUMBER OF OPEN WINDOWS
+            local win_count = #vim.api.nvim_list_wins()
+            if win_count == 1 then
+                -- IF ONLY ONE WINDOW IS OPEN OPEN NEOTREE
+                vim.cmd 'Neotree focus position=right'
+            else
+                -- IF MULTIPLE WINDOWS ARE OPEN, SWITCH FOCUS
+                vim.cmd 'wincmd w'
+            end
+        end, { noremap = true, silent = true })
 
         -- Auto-open neo-tree on startup
         vim.api.nvim_create_autocmd('VimEnter', {
