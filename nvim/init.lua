@@ -16,7 +16,10 @@ vim.opt.rtp:prepend(lazypath)
 require('lazy').setup {
     -- UI: CONFIGURES THE UI FOR NEOVIM
     require 'plugins.ui',
-    
+
+    -- SNACKS: A COLLECTION OF SMALL QOL PLUGINS
+    require 'plugins.snacks',
+
     -- NEO-TREE: A CUSTOMIZABLE FILE EXPLORER FOR NEOVIM (RIGHT SIDEBAR)
     require 'plugins.neotree',
 
@@ -25,7 +28,7 @@ require('lazy').setup {
 
     -- BUFFERLINE: DISPLAYS OPEN TABS AS A BAR FOR SMOOTH NAVIGATION
     require 'plugins.bufferline',
-    
+
     -- LUALINE: A CUSTOMIZABLE AND AESTHETIC STATUS BAR FOR NEOVIM
     require 'plugins.lualine',
 
@@ -40,7 +43,7 @@ require('lazy').setup {
 
     -- AUTO COMPLETION: CONFIGURES NATIVE LSP AND EXTERNAL SOURCES (LIKE CMP) TO PROVIDE CODE SUGGESTIONS IN REAL-TIME
     require 'plugins.autocompletion',
-    
+
     -- NONE-LS: EXTENDS LSP CAPABILITIES WITH FORMATTERS, LINTERS, AND CODE ACTIONS WITHOUT AN EXTERNAL LANGUAGE SERVER
     require 'plugins.none-ls',
 
