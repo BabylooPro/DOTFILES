@@ -25,11 +25,17 @@ vim.keymap.set('n', '<C-u>', '<C-u>zz', opts) -- SCROLL HALF PAGE UP AND CENTER
 vim.keymap.set('n', 'n', 'nzzzv', opts) -- FIND NEXT AND CENTER
 vim.keymap.set('n', 'N', 'Nzzzv', opts) -- FIND PREVIOUS AND CENTER
 
--- RESIZE WINDOWS WITH ARROWS --
-vim.keymap.set('n', '<Up>', ':resize -2<CR>', opts) -- DECREASE HEIGHT
-vim.keymap.set('n', '<Down>', ':resize +2<CR>', opts) -- INCREASE HEIGHT
-vim.keymap.set('n', '<Left>', ':vertical resize -2<CR>', opts) -- DECREASE WIDTH
-vim.keymap.set('n', '<Right>', ':vertical resize +2<CR>', opts) -- INCREASE WIDTH
+-- RESIZE WINDOWS WITH ALT+ARROWS --
+vim.keymap.set('n', '<A-Up>', ':resize -2<CR>', opts) -- DECREASE HEIGHT
+vim.keymap.set('n', '<A-Down>', ':resize +2<CR>', opts) -- INCREASE HEIGHT
+vim.keymap.set('n', '<A-Left>', ':vertical resize -2<CR>', opts) -- DECREASE WIDTH
+vim.keymap.set('n', '<A-Right>', ':vertical resize +2<CR>', opts) -- INCREASE WIDTH
+
+-- STANDARD ARROW KEY NAVIGATION --
+vim.keymap.set('n', '<Up>', 'k', { noremap = true, silent = true }) -- NORMAL UP MOVEMENT
+vim.keymap.set('n', '<Down>', 'j', { noremap = true, silent = true }) -- NORMAL DOWN MOVEMENT
+vim.keymap.set('n', '<Left>', 'h', { noremap = true, silent = true }) -- NORMAL LEFT MOVEMENT
+vim.keymap.set('n', '<Right>', 'l', { noremap = true, silent = true }) -- NORMAL RIGHT MOVEMENT
 
 -- BUFFER MANAGEMENT --
 vim.keymap.set('n', '<Tab>', ':bnext<CR>', opts) -- SWITCH TO NEXT BUFFER
