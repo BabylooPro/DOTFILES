@@ -40,6 +40,48 @@ vim.opt.fillchars:append {
     eob = ' ', -- REMOVE END-OF-BUFFER TILDES
 }
 
+-- FLOATING WINDOWS --
+vim.opt.winblend = 0
+vim.opt.pumblend = 0
+
+-- SET HIGHLIGHT GROUPS --
+vim.cmd([[
+    highlight FloatBorder guifg=#9ca0a4 guibg=#2a2a2a
+    highlight NormalFloat guibg=#2a2a2a
+    highlight Pmenu guibg=#2a2a2a
+    highlight PmenuSel guibg=#404040
+]])
+
+-- LSP WINDOWS --
+vim.lsp.handlers["textDocument/hover"] = function(_, result, ctx, config)
+    config = config or {}
+    config.border = border
+    config.focusable = true
+    vim.lsp.handlers.hover(_, result, ctx, config)
+end
+vim.lsp.handlers["textDocument/signatureHelp"] = function(_, result, ctx, config)
+    config = config or {}
+    config.border = border
+    vim.lsp.handlers.signature_help(_, result, ctx, config)
+end
+
+-- DIAGNOSTICS WINDOWS --
+vim.diagnostic.config({
+    float = {
+        border = border,
+        source = true,
+    },
+    virtual_text = true,
+})
+
+-- OVERRIDE FLOATING WINDOW CREATION --
+local win = require('vim.lsp.util').open_floating_preview
+require('vim.lsp.util').open_floating_preview = function(contents, syntax, opts, ...)
+    opts = opts or {}
+    opts.border = opts.border or border
+    return win(contents, syntax, opts, ...)
+end
+
 -- PERFORMANCE & BACKUPS --
 vim.o.updatetime = 250 -- DECREASE UPDATE TIME (DEFAULT: 4000)
 vim.o.timeoutlen = 300 -- TIMEOUT FOR MAPPED SEQUENCES (IN MS) (DEFAULT: 1000)
