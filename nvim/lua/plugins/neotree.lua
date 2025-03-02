@@ -49,9 +49,11 @@ return {
             --           return a.type > b.type
             --       end
             --   end , -- this sorts files and directories descendantly
+            hide_root_node = true, -- HIDE ROOT NODE OF THE TREE
             default_component_configs = {
                 container = {
                     enable_character_fade = true,
+                    hide_path = true, -- HIDE PATH IN CONTAINER
                 },
                 indent = {
                     indent_size = 3, -- Increased indent size
@@ -97,6 +99,7 @@ return {
                     use_git_status_colors = true,
                     highlight = 'NeoTreeFileName',
                     font_size = 14, -- Added font size (add this line)
+                    hide_path = true, -- HIDE PATH IN NAME COMPONENT
                 },
                 git_status = {
                     symbols = {
@@ -144,12 +147,13 @@ return {
             commands = {},
             window = {
                 position = 'right',
-                width = 50,
+                width = 40,
                 border = 'none',
                 mapping_options = {
                     noremap = true,
                     nowait = true,
                 },
+                title = '',
                 mappings = {
                     ['<space>'] = {
                         'toggle_node',

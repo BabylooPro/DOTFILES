@@ -45,7 +45,7 @@ return {
                 terminal_colors = true,
                 highlight_inactive_windows = false,
             },
-            
+
             highlights = {
                 -- INTERFACE HIGHLIGHTS --
                 Normal = { bg = '#202020', fg = '#D4D4D4' },
@@ -107,6 +107,24 @@ return {
                 NvimTreeEndOfBuffer = { bg = '#202020', fg = '#202020' },
                 NvimTreeIndentMarker = { fg = '#353535' },
 
+                -- NEO-TREE HIGHLIGHTS --
+                NeoTreeNormal = { bg = '#202020', fg = '#FFFFFF' },
+                NeoTreeEndOfBuffer = { bg = '#202020', fg = '#202020' },
+                NeoTreeIndentMarker = { fg = '#353535' },
+                NeoTreeRootName = { fg = '#9A9A9A', style = 'bold' },
+                NeoTreeFileName = { fg = '#D4D4D4' },
+                NeoTreeFileIcon = { fg = '#9A9A9A' },
+                NeoTreeDirectoryIcon = { fg = '#F8D775' },
+                NeoTreeDirectoryName = { fg = '#F8D775' },
+                NeoTreeSymbolicLinkTarget = { fg = '#9A9A9A' },
+                NeoTreeGitAdded = { fg = '#98C379' },
+                NeoTreeGitModified = { fg = '#E5C07B' },
+                NeoTreeGitDeleted = { fg = '#FF6C6B' },
+                NeoTreeGitConflict = { fg = '#FF6C6B', style = 'italic' },
+                NeoTreeGitUntracked = { fg = '#98C379', style = 'italic' },
+                NeoTreeGitIgnored = { fg = '#767676' },
+                NeoTreeExpander = { fg = '#9A9A9A' },
+
                 -- GIT HIGHLIGHTS --
                 GitSignsAdd = { fg = '#98C379' },
                 GitSignsChange = { fg = '#61AFEF' },
@@ -155,6 +173,10 @@ return {
             vim.api.nvim_set_hl(0, 'BufferLineFill', { bg = '#202020' })
             vim.api.nvim_set_hl(0, 'BufferLineBufferSelected', { bg = '#404040', fg = '#FFFFFF' })
             vim.api.nvim_set_hl(0, 'BufferLineDiagnosticSelected', { fg = '#FFFFFF', bg = '#404040' })
+
+            -- ENSURE NEO-TREE FOLDER ICONS ARE GOLD YELLOW (#F8D775)
+            vim.api.nvim_set_hl(0, 'NeoTreeDirectoryIcon', { fg = '#F8D775' })
+            vim.api.nvim_set_hl(0, 'NeoTreeDirectoryName', { fg = '#F8D775' })
         end, 50)
 
         vim.keymap.set('n', '<leader>bg', toggle_transparency, { noremap = true, silent = true })

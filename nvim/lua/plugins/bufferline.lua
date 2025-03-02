@@ -25,16 +25,21 @@ return {
                 right_trunc_marker = '',
                 offsets = {
                     {
-                        filetype = "neo-tree",
-                        text = "",
-                        text_align = "center",
-                        separator = false
-                    }
+                        filetype = 'neo-tree',
+                        text = function()
+                            -- GET PROJECT DIRECTORY NAME
+                            local cwd = vim.fn.getcwd()
+                            local dir_name = vim.fn.fnamemodify(cwd, ':t')
+                            return string.upper(dir_name)
+                        end,
+                        text_align = 'center',
+                        separator = false,
+                    },
                 },
                 max_name_length = 30,
                 max_prefix_length = 30,
                 tab_size = 21,
-                diagnostics = 'nvim_lsp',
+                diagnostics = false,
                 show_buffer_icons = true,
                 show_buffer_close_icons = true,
                 show_close_icon = false,
