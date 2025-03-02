@@ -5,56 +5,124 @@ return {
         'nvim-tree/nvim-web-devicons',
     },
     config = function()
-        require('bufferline').setup {
+        local bufferline = require 'bufferline'
+
+        bufferline.setup {
             options = {
-                mode = 'buffers', -- set to "tabs" to only show tabpages instead
-                themable = true, -- allows highlight groups to be overriden i.e. sets highlights as default
-                numbers = 'none', -- | "ordinal" | "buffer_id" | "both" | function({ ordinal, id, lower, raise }): string,
-                close_command = 'Bdelete! %d', -- can be a string | function, see "Mouse actions"
+                mode = 'buffers',
+                numbers = 'none',
+                close_command = 'Bdelete! %d',
+                right_mouse_command = 'Bdelete! %d',
                 buffer_close_icon = '✗',
                 close_icon = '✗',
-                path_components = 1, -- Show only the file name without the directory
+                hover = {
+                    enabled = true,
+                    delay = 200,
+                    reveal = { 'close' },
+                },
                 modified_icon = '●',
-                left_trunc_marker = '',
-                right_trunc_marker = '',
+                left_trunc_marker = '',
+                right_trunc_marker = '',
+                offsets = {
+                    {
+                        filetype = "neo-tree",
+                        text = "",
+                        text_align = "center",
+                        separator = false
+                    }
+                },
                 max_name_length = 30,
-                max_prefix_length = 30, -- prefix used when a buffer is de-duplicated
+                max_prefix_length = 30,
                 tab_size = 21,
-                diagnostics = false,
-                diagnostics_update_in_insert = false,
-                color_icons = true,
+                diagnostics = 'nvim_lsp',
                 show_buffer_icons = true,
                 show_buffer_close_icons = true,
-                show_close_icon = true,
-                persist_buffer_sort = true, -- whether or not custom sorted buffers should persist
-                separator_style = { '│', '│' }, -- | "thick" | "thin" | { 'any', 'any' },
-                enforce_regular_tabs = true,
+                show_close_icon = false,
+                separator_style = { ' ', ' ' },
+                enforce_regular_tabs = false,
                 always_show_bufferline = true,
-                show_tab_indicators = false,
                 indicator = {
-                    -- icon = '▎', -- this should be omitted if indicator style is not 'icon'
-                    style = 'none', -- Options: 'icon', 'underline', 'none'
+                    style = 'none',
                 },
-                icon_pinned = '󰐃',
-                minimum_padding = 1,
-                maximum_padding = 5,
-                maximum_length = 15,
-                sort_by = 'insert_at_end',
+                themable = true,
+                custom_areas = {
+                    right = function()
+                        local result = {}
+                        local seve = vim.diagnostic.severity
+                        local error = #vim.diagnostic.get(0, { severity = seve.ERROR })
+                        local warning = #vim.diagnostic.get(0, { severity = seve.WARN })
+                        local info = #vim.diagnostic.get(0, { severity = seve.INFO })
+                        local hint = #vim.diagnostic.get(0, { severity = seve.HINT })
+
+                        if error ~= 0 then
+                            table.insert(result, { text = '  ' .. error, link = 'DiagnosticError' })
+                        end
+
+                        if warning ~= 0 then
+                            table.insert(result, { text = '  ' .. warning, link = 'DiagnosticWarn' })
+                        end
+
+                        if hint ~= 0 then
+                            table.insert(result, { text = '  ' .. hint, link = 'DiagnosticHint' })
+                        end
+
+                        if info ~= 0 then
+                            table.insert(result, { text = '  ' .. info, link = 'DiagnosticInfo' })
+                        end
+                        return result
+                    end,
+                },
             },
             highlights = {
-                separator = {
-                    fg = '#434C5E',
-                },
-                buffer_selected = {
-                    bold = true,
-                    italic = false,
-                },
-                -- separator_selected = {},
-                -- tab_selected = {},
-                -- background = {},
-                -- indicator_selected = {},
-                -- fill = {},
+                -- NORMAL ELEMENTS
+                fill = { bg = '#202020' },
+                background = { bg = '#202020', fg = '#9A9A9A', italic = true },
+                buffer_visible = { bg = '#202020', fg = '#9A9A9A', italic = true },
+                tab = { bg = '#202020', fg = '#9A9A9A', italic = true },
+                tab_close = { bg = '#202020', fg = '#9A9A9A' },
+                close_button = { bg = '#202020', fg = '#9A9A9A' },
+                close_button_visible = { bg = '#202020', fg = '#9A9A9A' },
+                modified = { bg = '#202020', fg = '#FF6C6B' },
+                modified_visible = { bg = '#202020', fg = '#FF6C6B' },
+                separator = { fg = '#303030', bg = '#202020' },
+                separator_visible = { fg = '#303030', bg = '#202020' },
+                duplicate = { bg = '#202020', fg = '#9A9A9A', italic = true },
+                duplicate_visible = { bg = '#202020', fg = '#9A9A9A', italic = true },
+
+                -- SELECTED ELEMENTS (ACTIVE TAB)
+                buffer_selected = { bg = '#404040', fg = '#FFFFFF', bold = false, italic = false },
+                tab_selected = { bg = '#404040', fg = '#FFFFFF', bold = false, italic = false },
+                close_button_selected = { bg = '#404040', fg = '#FFFFFF' },
+                separator_selected = { fg = '#303030', bg = '#404040' },
+                modified_selected = { bg = '#404040', fg = '#FF6C6B' },
+                indicator_selected = { fg = '#404040', bg = '#404040' },
+                duplicate_selected = { bg = '#404040', fg = '#FFFFFF', italic = false },
             },
         }
+
+        -- SET ESSENTIAL HIGHLIGHTS & REGULAR TAB HIGHLIGHTS
+        vim.api.nvim_set_hl(0, 'BufferLineBufferSelected', { bg = '#404040', fg = '#FFFFFF', bold = false, italic = false })
+        vim.api.nvim_set_hl(0, 'BufferLineSeparatorSelected', { bg = '#404040', fg = '#303030' })
+        vim.api.nvim_set_hl(0, 'BufferLineCloseButtonSelected', { bg = '#404040', fg = '#FFFFFF' })
+        vim.api.nvim_set_hl(0, 'BufferLineModifiedSelected', { bg = '#404040', fg = '#FF6C6B' })
+        vim.api.nvim_set_hl(0, 'BufferLineTabSelected', { bg = '#404040', fg = '#FFFFFF', bold = false, italic = false })
+
+        vim.api.nvim_create_autocmd('ColorScheme', {
+            callback = function()
+                vim.api.nvim_set_hl(0, 'BufferLineBufferSelected', { bg = '#404040', fg = '#FFFFFF' })
+            end,
+        })
+
+        -- APPLY HIGHLIGHTS AGAIN WHEN COLORSHEME CHANGES
+        vim.api.nvim_create_autocmd('ColorScheme', {
+            callback = function()
+                -- REGULAR TAB HIGHLIGHTS
+                vim.api.nvim_set_hl(0, 'BufferLineBufferSelected', { bg = '#404040', fg = '#FFFFFF', bold = false, italic = false })
+                vim.api.nvim_set_hl(0, 'BufferLineSeparatorSelected', { bg = '#404040', fg = '#303030' })
+                vim.api.nvim_set_hl(0, 'BufferLineCloseButtonSelected', { bg = '#404040', fg = '#FFFFFF' })
+                vim.api.nvim_set_hl(0, 'BufferLineModifiedSelected', { bg = '#404040', fg = '#FF6C6B' })
+                vim.api.nvim_set_hl(0, 'BufferLineTabSelected', { bg = '#404040', fg = '#FFFFFF', bold = false, italic = false })
+            end,
+        })
     end,
 }
