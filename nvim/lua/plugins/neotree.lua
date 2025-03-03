@@ -369,6 +369,12 @@ return {
             end
         end, { noremap = true, silent = true })
 
+        -- LEADER KEYMAP TO CLOSE NEOTREE
+        vim.keymap.set('n', '<leader>ee', function()
+            -- CLOSE NEOTREE IF IT'S OPEN
+            vim.cmd 'Neotree close'
+        end, { noremap = true, silent = true })
+
         -- Auto-open neo-tree on startup
         vim.api.nvim_create_autocmd('VimEnter', {
             callback = function()
