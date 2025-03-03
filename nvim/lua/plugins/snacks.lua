@@ -47,7 +47,7 @@ return {
         bigfile = { enabled = true }, -- OPTIMIZES PERFORMANCE FOR LARGE FILES
         words = { enabled = true }, -- ENABLES SMART WORD NAVIGATION
         scroll = { enabled = false }, -- ENABLES SMOOTH SCROLLING
-        statuscolumn = { enabled = true }, -- ENHANCES THE STATUS COLUMN WITH USEFUL INFO
+        statuscolumn = { enabled = false }, -- ENHANCES THE STATUS COLUMN WITH USEFUL INFO
         quickfile = { enabled = true }, -- PROVIDES QUICK ACCESS TO FILES
         scope = { enabled = true }, -- VISUALIZES CODE SCOPE
         input = { enabled = true }, -- ENHANCES INPUT UI
