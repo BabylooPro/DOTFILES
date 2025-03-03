@@ -547,16 +547,17 @@ return {
             desc = 'Rename File',
         },
 
-        -- ADD SMART PICKER
-        {
-            -- INTELLIGENT FILE SEARCH (ADAPTS SEARCH TO CONTEXT)
-            -- AUTOMATICALLY CHOOSES THE BEST SEARCH METHOD BASED ON CONTEXT
-            '<leader><space>',
-            function()
-                require('snacks').picker.smart()
-            end,
-            desc = 'Smart Find Files',
-        },
+        --! DISABLED BECAUSE IT'S CAUSE CONFUSION WITH <leader> DEFINE IN SPACE KEYMAP
+        -- ADD SMART PICKER 
+        -- {
+        --     -- INTELLIGENT FILE SEARCH (ADAPTS SEARCH TO CONTEXT)
+        --     -- AUTOMATICALLY CHOOSES THE BEST SEARCH METHOD BASED ON CONTEXT
+        --     '<leader><space>',
+        --     function()
+        --         require('snacks').picker.smart()
+        --     end,
+        --     desc = 'Smart Find Files',
+        -- },
 
         -- ADD COMMAND HISTORY PICKER
         {
