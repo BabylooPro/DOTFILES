@@ -23,6 +23,14 @@ return {
                 modified_icon = '●',
                 left_trunc_marker = '',
                 right_trunc_marker = '',
+                custom_filter = function(buf_number, buf_numbers)
+                    -- FILTER OUT "NO NAME" BUFFERS
+                    local has_name = vim.api.nvim_buf_get_name(buf_number) ~= ""
+                    if not has_name then
+                        return false
+                    end
+                    return true
+                end,
                 offsets = {
                     {
                         filetype = 'neo-tree',
