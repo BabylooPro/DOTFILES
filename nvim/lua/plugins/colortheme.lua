@@ -50,7 +50,7 @@ return {
                 -- INTERFACE HIGHLIGHTS --
                 Normal = { bg = '#202020', fg = '#D4D4D4' },
                 NormalFloat = { bg = '#252525' },
-                LineNr = { fg = '#919191' },
+                LineNr = { fg = '#FFFFFF' },
                 CursorLine = { bg = '#252525' },
                 CursorLineNr = { fg = '#ffffff' },
                 Visual = { bg = '#4E4E4E' },
