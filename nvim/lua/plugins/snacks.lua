@@ -31,9 +31,14 @@ return {
             direction = 'float', -- "float", "horizontal", "vertical"
             auto_insert = true,
             close_on_exit = true,
-            float = {
-                width = 0.8,
-                height = 0.6,
+            win = {
+                width = 0.4,
+                height = 0.25,
+                row = 0.9,
+                col = 0.5,
+                border = "single",
+                winblend = 0,
+                style = "minimal",
             },
         },
         zen = {
