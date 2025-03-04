@@ -102,7 +102,7 @@ This document lists all my keyboard shortcuts available in this Neovim configura
 | ------------ | ---- | ----------------------------------------------- |
 | `<Tab>`      | n    | Go to next buffer                               |
 | `<S-Tab>`    | n    | Go to previous buffer                           |
-| `<leader>x`  | n    | Close buffer                                    |
+| `<leader>x`  | n    | Close buffer (close tab in bufferline)          |
 | `<leader>b`  | n    | Create new buffer                               |
 | `<leader>v`  | n    | Split window vertically                         |
 | `<leader>h`  | n    | Split window horizontally                       |
