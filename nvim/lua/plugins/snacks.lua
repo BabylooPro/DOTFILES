@@ -90,7 +90,7 @@ return {
                     enabled = function()
                         return require('snacks').git.get_root() ~= nil
                     end,
-                    cmd = 'git --no-pager log --oneline --graph --decorate origin/main..HEAD',
+                    cmd = 'git --no-pager log --oneline --graph --decorate origin/$(git rev-parse --abbrev-ref HEAD)..HEAD',
                     height = 5,
                     padding = 1,
                     ttl = 5 * 60,
@@ -548,7 +548,7 @@ return {
         },
 
         --! DISABLED BECAUSE IT'S CAUSE CONFUSION WITH <leader> DEFINE IN SPACE KEYMAP
-        -- ADD SMART PICKER 
+        -- ADD SMART PICKER
         -- {
         --     -- INTELLIGENT FILE SEARCH (ADAPTS SEARCH TO CONTEXT)
         --     -- AUTOMATICALLY CHOOSES THE BEST SEARCH METHOD BASED ON CONTEXT
@@ -759,8 +759,8 @@ return {
     },
     init = function()
         -- DISABLE MOUSE GLOBALLY
-        vim.opt.mouse = ""
-        
+        vim.opt.mouse = ''
+
         -- SHOW DASHBOARD ON STARTUP
         vim.api.nvim_create_autocmd('VimEnter', {
             callback = function()
