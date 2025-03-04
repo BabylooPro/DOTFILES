@@ -384,5 +384,32 @@ return {
 
         vim.api.nvim_set_hl(0, 'FloatBorder', { bg = 'none', fg = 'none' })
         vim.api.nvim_set_hl(0, 'NormalFloat', { bg = 'none' })
+
+        -- ENSURE NEOTREE STAYS ON THE RIGHT WHEN SWITCHING BUFFERS
+        vim.api.nvim_create_autocmd('BufEnter', {
+            callback = function()
+                if vim.bo.filetype == 'neo-tree' then
+                    vim.cmd 'wincmd L'
+                    -- NORMALIZE WIDTH AFTER MOVING TO RIGHT
+                    require('core.neotree-normalize').resize()
+                end
+            end,
+        })
+
+        -- NORMALIZE WIDTH AFTER WINDOW RESIZE
+        vim.api.nvim_create_autocmd('VimResized', {
+            callback = function()
+                require('core.neotree-normalize').resize()
+            end,
+        })
+
+        -- NORMALIZE WIDTH AFTER WINDOW CHANGES
+        vim.api.nvim_create_autocmd('WinEnter', {
+            callback = function()
+                vim.defer_fn(function()
+                    require('core.neotree-normalize').resize()
+                end, 10)
+            end,
+        })
     end,
 }

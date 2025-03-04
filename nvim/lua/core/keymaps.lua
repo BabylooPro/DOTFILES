@@ -40,7 +40,7 @@ vim.keymap.set('n', '<Right>', 'l', { noremap = true, silent = true }) -- NORMAL
 -- BUFFER MANAGEMENT --
 vim.keymap.set('n', '<Tab>', ':bnext<CR>', opts) -- SWITCH TO NEXT BUFFER
 vim.keymap.set('n', '<S-Tab>', ':bprevious<CR>', opts) -- SWITCH TO PREVIOUS BUFFER
-vim.keymap.set('n', '<leader>x', ':bdelete!<CR>', opts) -- CLOSE BUFFER
+vim.keymap.set('n', '<leader>x', ':Bdelete!<CR>', opts) -- CLOSE BUFFER WITH BUFFERLINE
 vim.keymap.set('n', '<leader>b', '<cmd> enew <CR>', opts) -- CREATE NEW BUFFER
 
 -- WINDOW MANAGEMENT --
