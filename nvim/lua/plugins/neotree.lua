@@ -240,7 +240,7 @@ return {
                         --".env*",
                     },
                     never_show = { -- remains hidden even if visible is toggled to true, this overrides always_show
-                        --".DS_Store",
+                        '.DS_Store',
                         --"thumbs.db"
                     },
                     never_show_by_pattern = { -- uses glob style patterns
