@@ -1,52 +1,65 @@
 return {
     'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
-        local colors = require('onedarkpro.helpers').get_colors()
+        -- GET SYSTEM APPEARANCE
+        local function get_system_appearance()
+            local handle = io.popen [[osascript -e 'tell application "System Events" to tell appearance preferences to return dark mode']]
+            if not handle then
+                return false
+            end
+            local result = handle:read '*a'
+            handle:close()
+            return result:match 'true' ~= nil
+        end
 
-        -- CUSTOM THEME --
-        local custom_theme = {
-            normal = {
-                a = { fg = colors.fg, bg = colors.line, gui = 'bold' },
-                b = { fg = colors.gray, bg = colors.bg },
-                c = { fg = colors.comment, bg = colors.bg }
-            },
-            insert = {
-                a = { fg = colors.fg, bg = colors.highlight, gui = 'bold' },
-                b = { fg = colors.gray, bg = colors.bg }
-            },
-            visual = {
-                a = { fg = colors.fg, bg = colors.selection, gui = 'bold' },
-                b = { fg = colors.gray, bg = colors.bg }
-            },
-            replace = {
-                a = { fg = colors.fg, bg = colors.line, gui = 'bold' },
-                b = { fg = colors.gray, bg = colors.bg }
-            },
-            command = {
-                a = { fg = colors.fg, bg = colors.highlight, gui = 'bold' },
-                b = { fg = colors.gray, bg = colors.bg }
-            },
-            inactive = {
-                a = { fg = colors.comment, bg = colors.bg },
-                b = { fg = colors.comment, bg = colors.bg },
-                c = { fg = colors.comment, bg = colors.bg }
+        -- GET THEME COLORS
+        local function get_custom_theme()
+            local colors = require('onedarkpro.helpers').get_colors()
+
+            return {
+                normal = {
+                    a = { fg = colors.fg, bg = colors.line, gui = 'bold' },
+                    b = { fg = colors.gray, bg = colors.bg },
+                    c = { fg = colors.comment, bg = colors.bg },
+                },
+                insert = {
+                    a = { fg = colors.fg, bg = colors.highlight, gui = 'bold' },
+                    b = { fg = colors.gray, bg = colors.bg },
+                },
+                visual = {
+                    a = { fg = colors.fg, bg = colors.selection, gui = 'bold' },
+                    b = { fg = colors.gray, bg = colors.bg },
+                },
+                replace = {
+                    a = { fg = colors.fg, bg = colors.line, gui = 'bold' },
+                    b = { fg = colors.gray, bg = colors.bg },
+                },
+                command = {
+                    a = { fg = colors.fg, bg = colors.highlight, gui = 'bold' },
+                    b = { fg = colors.gray, bg = colors.bg },
+                },
+                inactive = {
+                    a = { fg = colors.comment, bg = colors.bg },
+                    b = { fg = colors.comment, bg = colors.bg },
+                    c = { fg = colors.comment, bg = colors.bg },
+                },
             }
-        }
+        end
 
         -- MODE --
         local mode = {
             'mode',
             fmt = function(str)
                 return ' ' .. str
-                -- return ' ' .. str:sub(1, 1) -- DISPLAYS ONLY THE FIRST CHARACTER OF THE MODE
             end,
         }
 
         -- FILENAME --
         local filename = {
             'filename',
-            file_status = true, -- DISPLAYS FILE STATUS (READONLY STATUS, MODIFIED STATUS)
-            path = 1, -- 0 = JUST FILENAME, 1 = RELATIVE PATH, 2 = ABSOLUTE PATH
+            file_status = true,
+            path = 1,
         }
 
         -- HIDE IN WIDTH --
@@ -70,23 +83,21 @@ return {
         local diff = {
             'diff',
             colored = false,
-            symbols = { added = ' ', modified = ' ', removed = ' ' }, -- CHANGE DIFF SYMBOLS
+            symbols = { added = ' ', modified = ' ', removed = ' ' },
             cond = hide_in_width,
         }
 
-        -- SETUP --
-        require('lualine').setup {
+        -- SETUP LUALINE
+        local lualine = require 'lualine'
+        lualine.setup {
             options = {
                 icons_enabled = true,
-                theme = custom_theme,
-                -- Some useful glyphs:
-                -- https://www.nerdfonts.com/cheat-sheet
-                --
+                theme = get_custom_theme(),
                 section_separators = { left = '', right = '' },
                 component_separators = { left = '', right = '' },
                 disabled_filetypes = { 'alpha', 'neo-tree' },
                 always_divide_middle = true,
-                globalstatus = true, -- MAKE LUALINE GLOBAL TO AVOID BEING CUT BY NEO-TREE
+                globalstatus = true,
             },
             sections = {
                 lualine_a = { mode },
@@ -107,5 +118,25 @@ return {
             tabline = {},
             extensions = { 'fugitive' },
         }
+
+        -- UPDATE THEME ON SYSTEM CHANGES
+        local timer = vim.loop.new_timer()
+        timer:start(
+            1000,
+            5000,
+            vim.schedule_wrap(function()
+                lualine.setup {
+                    options = {
+                        icons_enabled = true,
+                        theme = get_custom_theme(),
+                        section_separators = { left = '', right = '' },
+                        component_separators = { left = '', right = '' },
+                        disabled_filetypes = { 'alpha', 'neo-tree' },
+                        always_divide_middle = true,
+                        globalstatus = true,
+                    },
+                }
+            end)
+        )
     end,
 }
