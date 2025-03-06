@@ -389,9 +389,16 @@ return {
         vim.api.nvim_create_autocmd('BufEnter', {
             callback = function()
                 if vim.bo.filetype == 'neo-tree' then
-                    vim.cmd 'wincmd L'
-                    -- NORMALIZE WIDTH AFTER MOVING TO RIGHT
-                    require('core.neotree-normalize').resize()
+                    -- ADD SAFETY CHECK TO PREVENT WINDOW COMMANDS DURING PLUGIN OPERATIONS
+                    local ok, _ = pcall(function()
+                        vim.cmd 'wincmd L'
+                        -- NORMALIZE WIDTH AFTER MOVING TO RIGHT
+                        require('core.neotree-normalize').resize()
+                    end)
+                    -- SILENTLY IGNORE ERRORS DURING WINDOW OPERATIONS
+                    if not ok then
+                        return
+                    end
                 end
             end,
         })
