@@ -5,6 +5,7 @@ This document lists all my keyboard shortcuts available in this Neovim configura
 ## Table of Contents
 
 - [General Navigation](#general-navigation)
+- [Visual Selection](#visual-selection)
 - [File Management](#file-management)
 - [Editing](#editing)
 - [Search](#search)
@@ -16,6 +17,7 @@ This document lists all my keyboard shortcuts available in this Neovim configura
 - [Telescope](#telescope)
 - [Neo-tree (File Explorer)](#neo-tree-file-explorer)
 - [Others](#others)
+- [Vim Default Keymaps](#vim-default-keymaps)
 
 ## General Navigation
 
@@ -43,6 +45,22 @@ This document lists all my keyboard shortcuts available in this Neovim configura
 | `]]`                                  | n, x | Go to next reference of word under cursor       |
 | `[[`                                  | n, x | Go to previous reference of word under cursor   |
 | `<Up>`, `<Down>`, `<Left>`, `<Right>` | n    | Normal movement with arrow keys                 |
+
+## Visual Selection
+
+| Shortcut          | Mode | Description                                                       |
+| ----------------- | ---- | ----------------------------------------------------------------- |
+| `v`               | n    | Enter **Visual Mode** (character-wise selection)                  |
+| `V`               | n    | Enter **Visual Line Mode** (select whole lines)                   |
+| `<C-v>`           | n    | Enter **Visual Block Mode** (column selection)                    |
+| `0v$`             | n    | Select text from the **beginning to the end** of the current line |
+| `ggVG`            | n    | Select the **entire file**                                        |
+| `V` then `G`      | n    | Select from the **current line to the end of file**               |
+| `V` then `gg`     | n    | Select from the **current line to the start of file**             |
+| `v` + `w`/`e`/`b` | n    | Extend selection by **word movement**                             |
+| `v` + `%`         | n    | Select **matching brackets/parentheses**                          |
+| `o`               | v    | Toggle selection between start and end                            |
+| `:normal @q`      | v    | Apply recorded macro `q` to selected lines                        |
 
 ## File Management
 
@@ -251,3 +269,98 @@ This document lists all my keyboard shortcuts available in this Neovim configura
 | Shortcut     | Mode | Description             |
 | ------------ | ---- | ----------------------- |
 | `<leader>th` | n    | Toggle LSP inline hints |
+
+## Vim Default Keymaps
+
+| Shortcut             | Mode | Description                                   |
+| -------------------- | ---- | --------------------------------------------- |
+| `i`                  | n    | Insert mode                                   |
+| `I`                  | n    | Insert at beginning of line                   |
+| `a`                  | n    | Append after cursor                           |
+| `A`                  | n    | Append at end of line                         |
+| `o`                  | n    | Open new line below                           |
+| `O`                  | n    | Open new line above                           |
+| `dd`                 | n    | Delete current line                           |
+| `yy`                 | n    | Yank (copy) current line                      |
+| `p`                  | n,v  | Paste after cursor                            |
+| `P`                  | n,v  | Paste before cursor                           |
+| `u`                  | n    | Undo last change                              |
+| `<C-r>`              | n    | Redo last undone change                       |
+| `.`                  | n    | Repeat last change                            |
+| `J`                  | n    | Join line below to current line               |
+| `x`                  | n    | Delete character under cursor                 |
+| `X`                  | n    | Delete character before cursor                |
+| `s`                  | n    | Delete character under cursor and insert mode |
+| `S`                  | n    | Delete entire line and enter insert mode      |
+| `cw`                 | n    | Change word                                   |
+| `c$`                 | n    | Change to end of line                         |
+| `C`                  | n    | Change entire line                            |
+| `ciw`                | n    | Change inner word                             |
+| `viw`                | n    | Select inner word                             |
+| `ci"`                | n    | Change inside double quotes                   |
+| `ci'`                | n    | Change inside single quotes                   |
+| `ci(`                | n    | Change inside parentheses                     |
+| `ci{`                | n    | Change inside curly brackets                  |
+| `ci[`                | n    | Change inside square brackets                 |
+| `ci<`                | n    | Change inside angle brackets                  |
+| `diw`                | n    | Delete inner word                             |
+| `di"`                | n    | Delete inside double quotes                   |
+| `di'`                | n    | Delete inside single quotes                   |
+| `di(`                | n    | Delete inside parentheses                     |
+| `di{`                | n    | Delete inside curly brackets                  |
+| `di[`                | n    | Delete inside square brackets                 |
+| `di<`                | n    | Delete inside angle brackets                  |
+| `v`                  | n    | Start visual mode                             |
+| `V`                  | n    | Start visual line mode                        |
+| `<C-v>`              | n    | Start visual block mode                       |
+| `y`                  | v    | Yank (copy) selection                         |
+| `d`                  | v    | Delete selection                              |
+| `c`                  | v    | Change selection                              |
+| `>`                  | v    | Indent right                                  |
+| `<`                  | v    | Indent left                                   |
+| `=`                  | v    | Auto-indent selection                         |
+| `*`                  | n    | Search word under cursor forward              |
+| `#`                  | n    | Search word under cursor backward             |
+| `/pattern`           | n    | Search forward                                |
+| `?pattern`           | n    | Search backward                               |
+| `n`                  | n    | Repeat last search forward                    |
+| `N`                  | n    | Repeat last search backward                   |
+| `:%s/foo/bar/gc`     | c    | Find and replace with confirmation            |
+| `:%s/\<foo\>/bar/gc` | c    | Find whole word and replace with confirmation |
+| `r`                  | n    | Replace character under cursor                |
+| `R`                  | n    | Enter replace mode                            |
+| `g~`                 | v    | Toggle case                                   |
+| `gu`                 | v    | Convert selection to lowercase                |
+| `gU`                 | v    | Convert selection to uppercase                |
+| `za`                 | n    | Toggle fold                                   |
+| `zc`                 | n    | Close fold                                    |
+| `zo`                 | n    | Open fold                                     |
+| `zR`                 | n    | Open all folds                                |
+| `zM`                 | n    | Close all folds                               |
+| `:w`                 | c    | Save file                                     |
+| `:q`                 | c    | Quit file                                     |
+| `:q!`                | c    | Quit without saving                           |
+| `:wq`                | c    | Save and quit                                 |
+| `ZZ`                 | n    | Save and quit                                 |
+| `ZQ`                 | n    | Quit without saving                           |
+| `:e filename`        | c    | Open file                                     |
+| `:split filename`    | c    | Open file in horizontal split                 |
+| `:vsplit filename`   | c    | Open file in vertical split                   |
+| `<C-w>w`             | n    | Switch between windows                        |
+| `<C-w>h`             | n    | Move to window on the left                    |
+| `<C-w>j`             | n    | Move to window below                          |
+| `<C-w>k`             | n    | Move to window above                          |
+| `<C-w>l`             | n    | Move to window on the right                   |
+| `<C-w>s`             | n    | Split window horizontally                     |
+| `<C-w>v`             | n    | Split window vertically                       |
+| `<C-w>q`             | n    | Close current window                          |
+| `<C-w>o`             | n    | Close all other windows                       |
+| `<C-w>=`             | n    | Equalize window sizes                         |
+| `:tabnew filename`   | c    | Open file in a new tab                        |
+| `gt`                 | n    | Go to next tab                                |
+| `gT`                 | n    | Go to previous tab                            |
+| `:tabclose`          | c    | Close current tab                             |
+| `:tabonly`           | c    | Close all other tabs                          |
+| `<C-n>`              | n    | Toggle file explorer (Netrw)                  |
+| `:help`              | c    | Open Vim help                                 |
+| `:h command`         | c    | Show help for command                         |
