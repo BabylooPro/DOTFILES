@@ -17,7 +17,7 @@ return {
             },
             signs = true,
             underline = true,
-            update_in_insert = false,
+            update_in_insert = true,
             severity_sort = true,
             float = {
                 focusable = false,
@@ -57,7 +57,7 @@ return {
 
         -- CREATE AUTOCOMMANDS TO HIGHLIGHT THE WHOLE LINE
         local diagnostic_ns = vim.api.nvim_create_namespace 'diagnostic_highlighting'
-        vim.api.nvim_create_autocmd({ 'DiagnosticChanged' }, {
+        vim.api.nvim_create_autocmd({ 'DiagnosticChanged', 'InsertEnter', 'InsertChange', 'TextChangedI' }, {
             callback = function()
                 vim.api.nvim_buf_clear_namespace(0, diagnostic_ns, 0, -1)
                 local diagnostics = vim.diagnostic.get(0)

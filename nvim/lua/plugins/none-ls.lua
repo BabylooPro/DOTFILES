@@ -18,6 +18,7 @@ return {
                 'shfmt', -- Shell formatter
                 'checkmake', -- linter for Makefiles
                 'ruff', -- Python linter and formatter
+                'csharpier', -- C# FORMATTER
             },
             automatic_installation = true,
         }
@@ -28,6 +29,7 @@ return {
             formatting.stylua,
             formatting.shfmt.with { args = { '-i', '4' } },
             formatting.terraform_fmt,
+            formatting.csharpier, -- C# FORMATTER
             require('none-ls.formatting.ruff').with { extra_args = { '--extend-select', 'I' } },
             require 'none-ls.formatting.ruff_format',
         }

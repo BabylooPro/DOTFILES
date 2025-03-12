@@ -7,12 +7,17 @@ return {
         'williamboman/mason-lspconfig.nvim',
         'WhoIsSethDaniel/mason-tool-installer.nvim',
 
-        -- Useful status updates for LSP.
-        -- Disabled because we use custom LSP progress tracking
-        -- { 'j-hui/fidget.nvim', opts = {} },
-
         -- Allows extra capabilities provided by nvim-cmp
         'hrsh7th/cmp-nvim-lsp',
+
+        -- TYPESCRIPT TOOLS - BETTER THAN TSSERVER FOR IMPORTS AND MORE
+        {
+            'pmizio/typescript-tools.nvim',
+            dependencies = { 'nvim-lua/plenary.nvim' },
+        },
+
+        -- OMNISHARP EXTENDED LSP - ADDED FUNCTIONALITIES FOR C# IMPORTS
+        { 'Hoffs/omnisharp-extended-lsp.nvim' },
     },
     config = function()
         -- ADVANCED LSP PROGRESS TRACKING
@@ -58,31 +63,6 @@ return {
                 })
             end,
         })
-
-        -- Brief aside: **What is LSP?**
-        --
-        -- LSP is an initialism you've probably heard, but might not understand what it is.
-        --
-        -- LSP stands for Language Server Protocol. It's a protocol that helps editors
-        -- and language tooling communicate in a standardized fashion.
-        --
-        -- In general, you have a "server" which is some tool built to understand a particular
-        -- language (such as `gopls`, `lua_ls`, `rust_analyzer`, etc.). These Language Servers
-        -- (sometimes called LSP servers, but that's kind of like ATM Machine) are standalone
-        -- processes that communicate with some "client" - in this case, Neovim!
-        --
-        -- LSP provides Neovim with features like:
-        --  - Go to definition
-        --  - Find references
-        --  - Autocompletion
-        --  - Symbol Search
-        --  - and more!
-        --
-        -- Thus, Language Servers are external tools that must be installed separately from
-        -- Neovim. This is where `mason` and related plugins come into play.
-        --
-        -- If you're wondering about lsp vs treesitter, you can check out the wonderfully
-        -- and elegantly composed help section, `:help lsp-vs-treesitter`
 
         --  This function gets run when an LSP attaches to a particular buffer.
         --    That is to say, every time a new file is opened that is associated with
@@ -133,6 +113,86 @@ return {
                 -- Execute a code action, usually your cursor needs to be on top of an error
                 -- or a suggestion from your LSP for this to activate.
                 map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
+
+                -- GLOBAL SHORTCUTS FOR IMPORT MANAGEMENT
+                -- THESE SHORTCUTS WORK FOR ALL LANGUAGES THAT SUPPORT THESE FEATURES
+
+                -- ADD MISSING IMPORT
+                map('<leader>ci', function()
+                    -- TRY TO EXECUTE LANGUAGE-SPECIFIC COMMAND
+                    local client = vim.lsp.get_client_by_id(event.data.client_id)
+                    if client then
+                        local commands = client.server_capabilities.executeCommandProvider
+                        if commands then
+                            local command_names = commands.commands or {}
+
+                            -- LOOK FOR APPROPRIATE IMPORT COMMAND
+                            local import_commands = {
+                                'csharp.addImport',
+                                'typescript.addImport',
+                                'python.addImport',
+                                '_typescript.addImport',
+                                'source.addImport',
+                                'source.addMissingImports',
+                            }
+
+                            for _, cmd in ipairs(import_commands) do
+                                if vim.tbl_contains(command_names, cmd) then
+                                    vim.lsp.buf.execute_command {
+                                        command = cmd,
+                                        arguments = { vim.uri_from_bufnr(event.buf) },
+                                    }
+                                    return
+                                end
+                            end
+                        end
+
+                        -- IF NO SPECIFIC COMMAND IS FOUND, TRY CODE ACTION
+                        vim.lsp.buf.code_action {
+                            context = {
+                                only = { 'source.addImport', 'source.addMissingImports' },
+                            },
+                        }
+                    end
+                end, 'Add Import')
+
+                -- ORGANIZE IMPORTS
+                map('<leader>co', function()
+                    -- TRY TO EXECUTE LANGUAGE-SPECIFIC COMMAND
+                    local client = vim.lsp.get_client_by_id(event.data.client_id)
+                    if client then
+                        local commands = client.server_capabilities.executeCommandProvider
+                        if commands then
+                            local command_names = commands.commands or {}
+
+                            -- LOOK FOR APPROPRIATE IMPORT ORGANIZATION COMMAND
+                            local organize_commands = {
+                                'csharp.organizeImports',
+                                'typescript.organizeImports',
+                                'python.organizeImports',
+                                '_typescript.organizeImports',
+                                'source.organizeImports',
+                            }
+
+                            for _, cmd in ipairs(organize_commands) do
+                                if vim.tbl_contains(command_names, cmd) then
+                                    vim.lsp.buf.execute_command {
+                                        command = cmd,
+                                        arguments = { vim.uri_from_bufnr(event.buf) },
+                                    }
+                                    return
+                                end
+                            end
+                        end
+
+                        -- IF NO SPECIFIC COMMAND IS FOUND, TRY CODE ACTION
+                        vim.lsp.buf.code_action {
+                            context = {
+                                only = { 'source.organizeImports' },
+                            },
+                        }
+                    end
+                end, 'Organize Imports')
 
                 -- WARN: This is not Goto Definition, this is Goto Declaration.
                 --  For example, in C this would take you to the header.
@@ -186,78 +246,19 @@ return {
         local capabilities = vim.lsp.protocol.make_client_capabilities()
         capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
-        -- Enable the following language servers
-        --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
-        --
-        --  Add any additional override configuration in the following tables. Available keys are:
-        --  - cmd (table): Override the default command used to start the server
-        --  - filetypes (table): Override the default list of associated filetypes for the server
-        --  - capabilities (table): Override fields in capabilities. Can be used to disable certain LSP features.
-        --  - settings (table): Override the default settings passed when initializing the server.
-        --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
-        local servers = {
-            -- clangd = {},
-            -- gopls = {},
-            -- pyright = {},
-            -- rust_analyzer = {},
-            -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
-            --
-            -- Some languages (like typescript) have entire language plugins that can be useful:
-            --    https://github.com/pmizio/typescript-tools.nvim
-            --
-            -- But for many setups, the LSP (`tsserver`) will work just fine
-            ts_ls = {}, -- tsserver is deprecated
-            ruff = {},
-            pylsp = {
-                settings = {
-                    pylsp = {
-                        plugins = {
-                            pyflakes = { enabled = false },
-                            pycodestyle = { enabled = false },
-                            autopep8 = { enabled = false },
-                            yapf = { enabled = false },
-                            mccabe = { enabled = false },
-                            pylsp_mypy = { enabled = false },
-                            pylsp_black = { enabled = false },
-                            pylsp_isort = { enabled = false },
-                        },
-                    },
-                },
-            },
-            html = { filetypes = { 'html', 'twig', 'hbs' } },
-            cssls = {},
-            tailwindcss = {},
-            dockerls = {},
-            sqlls = {},
-            terraformls = {},
-            jsonls = {},
-            yamlls = {},
+        -- LOAD LANGUAGE-SPECIFIC LSP CONFIGURATIONS FROM THE LSP-EXTENSION DIRECTORY
+        require('lsp-extension').setup(capabilities)
 
-            lua_ls = {
-                -- cmd = {...},
-                -- filetypes = { ...},
-                -- capabilities = {},
-                settings = {
-                    Lua = {
-                        completion = {
-                            callSnippet = 'Replace',
-                        },
-                        runtime = { version = 'LuaJIT' },
-                        workspace = {
-                            checkThirdParty = false,
-                            library = {
-                                '${3rd}/luv/library',
-                                unpack(vim.api.nvim_get_runtime_file('', true)),
-                            },
-                        },
-                        diagnostics = { disable = { 'missing-fields' } },
-                        format = {
-                            enable = false,
-                        },
-                    },
-                },
-            },
-        }
+        -- COMMAND TO DISPLAY/ENABLE LSP LOGS
+        vim.api.nvim_create_user_command('LspDebugMode', function()
+            -- ENABLE LSP LOGGING
+            vim.lsp.set_log_level 'debug'
+            print 'LSP log level set to DEBUG'
+            print 'To see the logs, use :LspLog'
+
+            -- CHECK LSP PROBLEMS
+            vim.cmd 'checkhealth lsp'
+        end, {})
 
         -- Ensure the servers and tools above are installed
         --  To check the current status of installed tools and/or manually install
@@ -269,21 +270,62 @@ return {
 
         -- You can add other tools here that you want Mason to install
         -- for you, so that they are available from within Neovim.
-        local ensure_installed = vim.tbl_keys(servers or {})
-        vim.list_extend(ensure_installed, {
-            'stylua', -- Used to format Lua code
-        })
-        require('mason-tool-installer').setup { ensure_installed = ensure_installed }
+        require('mason-tool-installer').setup {
+            ensure_installed = {
+                -- FORMATTERS
+                'stylua', -- Lua formatter
+                'eslint_d', -- JavaScript/TypeScript linter
+                'prettierd', -- JavaScript/TypeScript formatter
+                'ruff', -- Python linter and formatter
+                'csharpier', -- C# formatter
 
+                -- LSP SERVERS
+                'typescript-language-server', -- For ts_ls
+                'pyright',
+                'omnisharp', -- Use .NET version instead of omnisharp-mono
+                'tailwindcss-language-server',
+                'dockerfile-language-server',
+                'yaml-language-server',
+            },
+        }
+
+        -- SETUP MASON LSP CONFIGURATION
         require('mason-lspconfig').setup {
             handlers = {
                 function(server_name)
-                    local server = servers[server_name] or {}
-                    -- This handles overriding only values explicitly passed
-                    -- by the server configuration above. Useful when disabling
-                    -- certain features of an LSP (for example, turning off formatting for tsserver)
-                    server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-                    require('lspconfig')[server_name].setup(server)
+                    -- SKIP CSHARP_LS ENTIRELY - WE ONLY WANT TO USE OMNISHARP
+                    if server_name == 'csharp_ls' then
+                        return
+                    end
+
+                    -- SKIP SERVERS THAT ARE HANDLED BY LSP_EXTENSION
+                    -- THIS PREVENTS DOUBLE INITIALIZATION
+                    local skip_servers = {
+                        'ts_ls',
+                        'omnisharp',
+                        'pyright',
+                        'pylsp',
+                        'ruff',
+                        'lua_ls',
+                        'html',
+                        'cssls',
+                        'tailwindcss', -- "jdtls",
+                        'sourcekit',
+                        'dockerls',
+                        'yamlls',
+                        'jsonls',
+                        'terraformls',
+                        'sqlls',
+                    }
+
+                    if vim.tbl_contains(skip_servers, server_name) then
+                        return
+                    end
+
+                    -- SETUP ANY OTHER SERVERS THAT AREN'T EXPLICITLY CONFIGURED
+                    require('lspconfig')[server_name].setup {
+                        capabilities = capabilities,
+                    }
                 end,
             },
         }

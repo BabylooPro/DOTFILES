@@ -30,7 +30,6 @@ return { -- Highlight, edit, and navigate code
             'css',
             'html',
             'c_sharp',
-            'java',
             'swift',
         },
         -- Autoinstall languages that are not installed

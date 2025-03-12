@@ -1,5 +1,6 @@
 require 'core.options' -- LOAD GENERAL OPTIONS
 require 'core.keymaps' -- LOAD GENERAL KEYMAPS
+require 'core.diagnostics' -- LOAD DIAGNOSTICS CONFIGURATION
 
 -- SETUP LAZY PLUGIN MANAGER --
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
