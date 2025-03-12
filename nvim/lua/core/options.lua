@@ -110,3 +110,13 @@ vim.opt.shortmess:append 'c' -- SUPPRESS COMPLETION MESSAGES (DEFAULT: DOES NOT 
 vim.opt.iskeyword:append '-' -- INCLUDE HYPHENATED WORDS IN SEARCHES (DEFAULT: DOES NOT INCLUDE '-')
 vim.opt.formatoptions:remove { 'c', 'r', 'o' } -- DISABLE AUTO-INSERTING COMMENT LEADER (DEFAULT: 'CROQL')
 vim.opt.runtimepath:remove '/usr/share/vim/vimfiles' -- SEPARATE VIM PLUGINS FROM NEOVIM (DEFAULT: INCLUDES THIS PATH IF VIM IS INSTALLED)
+
+-- TERMINAL COLOR FIX --
+vim.api.nvim_create_autocmd("TermOpen", {
+    pattern = "*",
+    callback = function()
+        vim.cmd("hi Terminal guibg=#202020")
+        vim.cmd("hi TermCursor guibg=#D4D4D4 guifg=#202020")
+        vim.cmd("setlocal winhighlight=Normal:Terminal")
+    end,
+})

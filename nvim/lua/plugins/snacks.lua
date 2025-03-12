@@ -39,6 +39,12 @@ return {
                 border = 'single',
                 winblend = 0,
                 style = 'minimal',
+                bg = '#202020',  -- EXPLICITLY SET BACKGROUND COLOR
+            },
+            highlights = {
+                Normal = { bg = '#202020', fg = '#D4D4D4' },
+                NormalFloat = { bg = '#202020' },
+                FloatBorder = { bg = '#202020', fg = '#353535' },
             },
         },
         zen = {

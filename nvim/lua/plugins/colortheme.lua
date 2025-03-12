@@ -85,6 +85,13 @@ return {
 
                 -- NEOVIM TERMINAL --
                 Terminal = { bg = '#202020', fg = '#D4D4D4' },
+                TermCursor = { bg = '#D4D4D4', fg = '#202020' },
+                TermCursorNC = { bg = '#9A9A9A', fg = '#202020' },
+
+                -- ADDITIONAL TERMINAL HIGHLIGHTS --
+                ['SnackTerminal'] = { bg = '#202020' },
+                ['TerminalNormal'] = { bg = '#202020' },
+                ['TerminalBorder'] = { bg = '#202020', fg = '#353535' },
 
                 -- SIDEBAR --
                 NvimTreeNormal = { bg = '#202020', fg = '#FFFFFF' },
