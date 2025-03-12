@@ -198,6 +198,33 @@ return {
                 --  For example, in C this would take you to the header.
                 map('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
 
+                -- SHOW FULL DIAGNOSTIC UNDER CURSOR
+                map('<leader>fd', function()
+                    -- GET ALL DIAGNOSTICS UNDER CURSOR
+                    local line_diagnostics = vim.diagnostic.get(0, { lnum = vim.api.nvim_win_get_cursor(0)[1] - 1 })
+                    
+                    if vim.tbl_isempty(line_diagnostics) then
+                        vim.notify("Aucun diagnostic trouvé sous le curseur", vim.log.levels.INFO)
+                        return
+                    end
+                    
+                    -- OPEN A FLOATING WINDOW WITH ALL THE DETAILS
+                    local opts = {
+                        focusable = true,
+                        close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+                        border = 'rounded',
+                        source = 'always',
+                        prefix = ' ',
+                        scope = 'cursor',
+                        header = { "DIAGNOSTIC DETAILS", "Title" },
+                        win_options = {
+                            winhighlight = 'Normal:Normal,NormalFloat:Normal,FloatBorder:FloatBorder',
+                        },
+                    }
+                    
+                    vim.diagnostic.open_float(0, opts)
+                end, 'Afficher [F]ull [D]iagnostic')
+
                 -- The following two autocommands are used to highlight references of the
                 -- word under your cursor when your cursor rests there for a little while.
                 --    See `:help CursorHold` for information about when this is executed
@@ -248,6 +275,42 @@ return {
 
         -- LOAD LANGUAGE-SPECIFIC LSP CONFIGURATIONS FROM THE LSP-EXTENSION DIRECTORY
         require('lsp-extension').setup(capabilities)
+
+        -- CONFIGURATION TO SHOW DIAGNOSTICS AUTOMATICALLY
+        vim.diagnostic.config({
+            float = {
+                source = 'always',
+                border = 'rounded',
+                focusable = false,
+                header = { "DIAGNOSTIC", "Title" },
+                win_options = {
+                    winhighlight = 'Normal:Normal,NormalFloat:Normal,FloatBorder:FloatBorder',
+                },
+            },
+            signs = true,
+            underline = true,
+            update_in_insert = false,
+            severity_sort = true,
+            virtual_text = {
+                source = true,
+                prefix = '●',
+            },
+        })
+
+        -- SHOW DIAGNOSTIC AUTOMATICALLY WHEN CURSOR STAYS ON A LINE
+        vim.o.updatetime = 250
+        vim.api.nvim_create_autocmd("CursorHold", {
+            pattern = "*",
+            callback = function()
+                vim.diagnostic.open_float(nil, { 
+                    focus = false,
+                    scope = "cursor",
+                    win_options = {
+                        winhighlight = 'Normal:Normal,NormalFloat:Normal,FloatBorder:FloatBorder',
+                    }
+                })
+            end,
+        })
 
         -- COMMAND TO DISPLAY/ENABLE LSP LOGS
         vim.api.nvim_create_user_command('LspDebugMode', function()
