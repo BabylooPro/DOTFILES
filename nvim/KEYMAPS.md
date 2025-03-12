@@ -64,19 +64,20 @@ This document lists all my keyboard shortcuts available in this Neovim configura
 
 ## File Management
 
-| Shortcut     | Mode | Description                     |
-| ------------ | ---- | ------------------------------- |
-| `<C-s>`      | n    | Save file                       |
-| `<leader>sn` | n    | Save without auto-formatting    |
-| `<C-q>`      | n    | Quit file                       |
-| `q`          | c    | Quit all files (:qa)            |
-| `<leader>e`  | n    | Open file explorer              |
-| `<leader>cR` | n    | Rename file (with LSP support)  |
-| `<leader>q`  | n    | Quickly open a file (QuickFile) |
-| `<leader>.`  | n    | Toggle temporary buffer         |
-| `<leader>S`  | n    | Select temporary buffer         |
-| `<leader>fc` | n    | Find config file                |
-| `<leader>fp` | n    | Show projects                   |
+| Shortcut     | Mode | Description                            |
+| ------------ | ---- | -------------------------------------- |
+| `<C-s>`      | n    | Save file                              |
+| `<leader>sn` | n    | Save without auto-formatting           |
+| `<C-q>`      | n    | Quit file                              |
+| `q`          | c    | Quit all files (:qa)                   |
+| `<leader>e`  | n    | Toggle focus between Neo-tree and code |
+| `<leader>ee` | n    | Close Neo-tree                         |
+| `<leader>cR` | n    | Rename file (with LSP support)         |
+| `<leader>q`  | n    | Quickly open a file (QuickFile)        |
+| `<leader>.`  | n    | Toggle temporary buffer                |
+| `<leader>S`  | n    | Select temporary buffer                |
+| `<leader>fc` | n    | Find config file                       |
+| `<leader>fp` | n    | Show projects                          |
 
 ## Editing
 
@@ -88,6 +89,8 @@ This document lists all my keyboard shortcuts available in this Neovim configura
 | `p`          | v    | Paste without overwriting register           |
 | `<leader>lw` | n    | Toggle line wrapping                         |
 | `<leader>sc` | n    | Toggle code scope visualization              |
+| `<leader>cc` | n    | Comment toggle current line                  |
+| `<leader>cc` | v    | Comment toggle visual selection              |
 
 ## Search
 
@@ -144,27 +147,57 @@ This document lists all my keyboard shortcuts available in this Neovim configura
 
 ## LSP (Language Server Protocol)
 
-| Shortcut     | Mode | Description                |
-| ------------ | ---- | -------------------------- |
-| `[d`         | n    | Go to previous diagnostic  |
-| `]d`         | n    | Go to next diagnostic      |
-| `<leader>d`  | n    | Open floating diagnostic   |
-| `<leader>q`  | n    | Open diagnostics list      |
-| `gd`         | n    | Go to definition           |
-| `gD`         | n    | Go to declaration          |
-| `gr`         | n    | Show references            |
-| `gI`         | n    | Go to implementation       |
-| `gy`         | n    | Go to type definition      |
-| `<leader>D`  | n    | Type definition            |
-| `<leader>ds` | n    | Show document symbols      |
-| `<leader>ws` | n    | Show workspace symbols     |
-| `<leader>rn` | n    | Rename                     |
-| `<leader>ca` | n, x | Code action                |
-| `<leader>ss` | n    | Show LSP symbols           |
-| `<leader>sS` | n    | Show LSP workspace symbols |
-| `<leader>sd` | n    | Show diagnostics           |
-| `<leader>sD` | n    | Show buffer diagnostics    |
-| `<leader>th` | n    | Toggle inline hints        |
+| Shortcut     | Mode | Description                    |
+| ------------ | ---- | ------------------------------ |
+| `[d`         | n    | Go to previous diagnostic      |
+| `]d`         | n    | Go to next diagnostic          |
+| `<leader>d`  | n    | Open floating diagnostic       |
+| `<leader>q`  | n    | Open diagnostics list          |
+| `gd`         | n    | Go to definition               |
+| `gD`         | n    | Go to declaration              |
+| `gr`         | n    | Show references                |
+| `gI`         | n    | Go to implementation           |
+| `gy`         | n    | Go to type definition          |
+| `<leader>D`  | n    | Type definition                |
+| `<leader>ds` | n    | Show document symbols          |
+| `<leader>ws` | n    | Show workspace symbols         |
+| `<leader>rn` | n    | Rename                         |
+| `<leader>ca` | n, x | Code action                    |
+| `<leader>ci` | n    | Add missing import             |
+| `<leader>co` | n    | Organize imports               |
+| `<leader>ss` | n    | Show LSP symbols               |
+| `<leader>sS` | n    | Show LSP workspace symbols     |
+| `<leader>sd` | n    | Show diagnostics               |
+| `<leader>sD` | n    | Show buffer diagnostics        |
+| `<leader>th` | n    | Toggle inline hints            |
+| `<C-e>`      | i    | Show diagnostic in insert mode |
+
+### C# Specific
+
+| Shortcut     | Mode | Description         |
+| ------------ | ---- | ------------------- |
+| `<leader>ci` | n    | C# Add Imports      |
+| `<leader>co` | n    | C# Organize Imports |
+
+### Python Specific
+
+| Shortcut     | Mode | Description                  |
+| ------------ | ---- | ---------------------------- |
+| `<leader>cm` | n    | Python: Manual Import Module |
+| `<leader>ca` | n    | Python: Code Actions         |
+| `<leader>ci` | n    | Python: Generate Import/Fix  |
+| `<leader>co` | n    | Python: Organize Imports     |
+
+### TypeScript Specific
+
+| Shortcut     | Mode | Description           |
+| ------------ | ---- | --------------------- |
+| `<leader>co` | n    | Organize Imports      |
+| `<leader>cs` | n    | Sort Imports          |
+| `<leader>cu` | n    | Remove Unused Imports |
+| `<leader>ca` | n    | Add Missing Imports   |
+| `<leader>cA` | n    | Fix All Issues        |
+| `<leader>cg` | n    | Generate Type         |
 
 ## Git
 
@@ -209,60 +242,78 @@ This document lists all my keyboard shortcuts available in this Neovim configura
 | `<leader>uD` | n    | Toggle dim out-of-focus code   |
 | `<leader>uw` | n    | Toggle line wrapping           |
 
+## Debug Helpers
+
+| Shortcut | Mode | Description                         |
+| -------- | ---- | ----------------------------------- |
+| `dd()`   | -    | Inspect variables (detailed output) |
+| `bt()`   | -    | Display call trace/stack backtrace  |
+
 ## Telescope
 
-| Shortcut          | Mode    | Description               |
-| ----------------- | ------- | ------------------------- |
-| `<leader>ff`      | n       | Find files                |
-| `<leader>fg`      | n       | Find Git files            |
-| `<leader>fr`      | n       | Recent files              |
-| `<leader>fb`      | n       | Find in buffers           |
-| `<leader>fp`      | n       | Show projects             |
-| `<leader>sf`      | n       | Search files              |
-| `<leader>sh`      | n       | Search in help            |
-| `<leader>sk`      | n       | Search keymaps            |
-| `<leader>ss`      | n       | Select Telescope function |
-| `<leader>sw`      | n       | Search current word       |
-| `<leader>sg`      | n       | Search by Grep            |
-| `<leader>sd`      | n       | Search diagnostics        |
-| `<leader>sr`      | n       | Resume last search        |
-| `<leader>s.`      | n       | Search in recent files    |
-| `<leader>sb`      | n       | Search in buffers         |
-| `<leader><space>` | disable | Smart file search         |
-| `<leader>:`       | n       | Command history           |
+| Shortcut          | Mode    | Description                      |
+| ----------------- | ------- | -------------------------------- |
+| `<leader>ff`      | n       | Find files                       |
+| `<leader>fg`      | n       | Find Git files                   |
+| `<leader>fr`      | n       | Recent files                     |
+| `<leader>fb`      | n       | Find in buffers                  |
+| `<leader>fp`      | n       | Show projects                    |
+| `<leader>sf`      | n       | Search files                     |
+| `<leader>sh`      | n       | Search in help                   |
+| `<leader>sk`      | n       | Search keymaps                   |
+| `<leader>ss`      | n       | Select Telescope function        |
+| `<leader>sw`      | n       | Search current word              |
+| `<leader>sg`      | n       | Search by Grep                   |
+| `<leader>sd`      | n       | Search diagnostics               |
+| `<leader>sr`      | n       | Resume last search               |
+| `<leader>s.`      | n       | Search in recent files           |
+| `<leader>sb`      | n       | Search in buffers                |
+| `<leader>/`       | n       | Fuzzy search in current buffer   |
+| `<leader>s/`      | n       | Search in open files (live grep) |
+| `<leader><space>` | disable | Smart file search                |
+| `<leader>:`       | n       | Command history                  |
 
 ## Neo-tree (File Explorer)
 
-| Shortcut    | Mode | Description                            |
-| ----------- | ---- | -------------------------------------- |
-| `\`         | n    | Open Neo-tree and reveal current file  |
-| `<leader>e` | n    | Toggle focus between Neo-tree and code |
-| `<bs>`      | n    | Go up one level in tree                |
-| `.`         | n    | Set as root                            |
-| `H`         | n    | Show/hide hidden files                 |
-| `/`         | n    | Fuzzy search                           |
-| `D`         | n    | Fuzzy search in directories            |
-| `#`         | n    | Fuzzy sort                             |
-| `f`         | n    | Filter                                 |
-| `<c-x>`     | n    | Clear filter                           |
-| `[g`        | n    | Go to previous Git modification        |
-| `]g`        | n    | Go to next Git modification            |
-| `m`         | n    | Move                                   |
-| `q`         | n    | Close window                           |
-| `R`         | n    | Refresh                                |
-| `?`         | n    | Show help                              |
-| `<`         | n    | Previous source                        |
-| `>`         | n    | Next source                            |
-| `i`         | n    | Show file details                      |
-| `d`         | n    | Delete buffer (buffers mode)           |
-| `bd`        | n    | Delete buffer (buffers mode)           |
-| `A`         | n    | Add all files (git mode)               |
-| `gu`        | n    | Unstage file (git mode)                |
-| `ga`        | n    | Add file (git mode)                    |
-| `gr`        | n    | Revert file (git mode)                 |
-| `gc`        | n    | Commit (git mode)                      |
-| `gp`        | n    | Push (git mode)                        |
-| `gg`        | n    | Commit and push (git mode)             |
+| Shortcut     | Mode | Description                            |
+| ------------ | ---- | -------------------------------------- |
+| `\`          | n    | Open Neo-tree and reveal current file  |
+| `<leader>e`  | n    | Toggle focus between Neo-tree and code |
+| `<leader>ee` | n    | Close Neo-tree                         |
+| `<bs>`       | n    | Go up one level in tree                |
+| `.`          | n    | Set as root                            |
+| `H`          | n    | Show/hide hidden files                 |
+| `/`          | n    | Fuzzy search                           |
+| `D`          | n    | Fuzzy search in directories            |
+| `#`          | n    | Fuzzy sort                             |
+| `f`          | n    | Filter                                 |
+| `<c-x>`      | n    | Clear filter                           |
+| `[g`         | n    | Go to previous Git modification        |
+| `]g`         | n    | Go to next Git modification            |
+| `m`          | n    | Move                                   |
+| `q`          | n    | Close window                           |
+| `R`          | n    | Refresh                                |
+| `?`          | n    | Show help                              |
+| `<`          | n    | Previous source                        |
+| `>`          | n    | Next source                            |
+| `i`          | n    | Show file details                      |
+| `d`          | n    | Delete buffer (buffers mode)           |
+| `bd`         | n    | Delete buffer (buffers mode)           |
+| `A`          | n    | Add all files (git mode)               |
+| `gu`         | n    | Unstage file (git mode)                |
+| `ga`         | n    | Add file (git mode)                    |
+| `gr`         | n    | Revert file (git mode)                 |
+| `gc`         | n    | Commit (git mode)                      |
+| `gp`         | n    | Push (git mode)                        |
+| `gg`         | n    | Commit and push (git mode)             |
+| `o`          | n    | Show ordering options                  |
+| `oc`         | n    | Order by created                       |
+| `od`         | n    | Order by diagnostics                   |
+| `og`         | n    | Order by git status                    |
+| `om`         | n    | Order by modified                      |
+| `on`         | n    | Order by name                          |
+| `os`         | n    | Order by size                          |
+| `ot`         | n    | Order by type                          |
 
 ## Others
 
