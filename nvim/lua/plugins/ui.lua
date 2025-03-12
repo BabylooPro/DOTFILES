@@ -41,7 +41,7 @@ return {
                 enabled = true,
                 view = 'notify',
                 opts = {
-                    background_colour = '#2a2a2a',
+                    background_colour = '#202020',
                 },
             },
             lsp = {
@@ -138,10 +138,7 @@ return {
                         padding = { 0, 1 },
                     },
                     win_options = {
-                        winhighlight = {
-                            Normal = 'NormalFloat',
-                            FloatBorder = 'FloatBorder',
-                        },
+                        winhighlight = 'Normal:Normal,NormalFloat:Normal,FloatBorder:FloatBorder',
                     },
                 },
                 popupmenu = {
@@ -159,11 +156,7 @@ return {
                         padding = { 0, 1 },
                     },
                     win_options = {
-                        winhighlight = {
-                            Normal = 'NormalFloat',
-                            FloatBorder = 'FloatBorder',
-                            CursorLine = 'PmenuSel',
-                        },
+                        winhighlight = 'Normal:Normal,NormalFloat:Normal,FloatBorder:FloatBorder,CursorLine:PmenuSel',
                     },
                 },
             },
@@ -183,7 +176,7 @@ return {
         -- NOTIFICATIONS FOR NEOVIM
         'rcarriga/nvim-notify',
         opts = {
-            background_colour = '#2a2a2a',
+            background_colour = '#202020',
             timeout = 3000,
             max_height = function()
                 return math.floor(vim.o.lines * 0.75)

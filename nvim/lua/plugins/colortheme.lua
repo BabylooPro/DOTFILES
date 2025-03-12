@@ -33,7 +33,8 @@ return {
             highlights = {
                 -- INTERFACE HIGHLIGHTS --
                 Normal = { bg = '#202020', fg = '#D4D4D4' },
-                NormalFloat = { bg = '#252525' },
+                NormalFloat = { bg = '#202020' },
+                FloatBorder = { bg = '#202020', fg = '#353535' },
                 LineNr = { fg = '#FFFFFF' },
                 CursorLine = { bg = '#252525' },
                 CursorLineNr = { fg = '#ffffff' },
