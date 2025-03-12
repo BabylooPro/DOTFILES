@@ -2,13 +2,13 @@
 
 **_Bugs to fix_**
 
-- [ ] **fix:** ![MID][mid] prevent triple theme flash on Neovim startup
+- [ ] **fix(neovim):** ![MID][mid] prevent triple theme flash on Neovim startup
 
 ---
 
 **_New features to add_**
 
--
+- [ ] **add(dotfiles):** better configure GNU Stow for cross-platform dotfiles management
 
 #### IN PROGRESS
 
