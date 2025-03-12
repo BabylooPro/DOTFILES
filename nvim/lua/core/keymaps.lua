@@ -76,3 +76,20 @@ vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'GO TO PREVIOUS DIA
 vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'GO TO NEXT DIAGNOSTIC MESSAGE' })
 vim.keymap.set('n', '<leader>d', vim.diagnostic.open_float, { desc = 'OPEN FLOATING DIAGNOSTIC MESSAGE' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'OPEN DIAGNOSTICS LIST' })
+
+-- COMMENT KEYMAPS TOGGLE FUNCTIONS IN 2 MODE
+local function toggle_comment_line()
+    local comment_api = require('Comment.api')
+    comment_api.toggle.linewise.current()
+end
+local function toggle_comment_visual()
+    local comment_api = require('Comment.api')
+    local esc = vim.api.nvim_replace_termcodes('<ESC>', true, false, true)
+    vim.api.nvim_feedkeys(esc, 'nx', false)
+    comment_api.toggle.linewise(vim.fn.visualmode())
+end
+
+-- FALLBACK COMMENT KEYMAPS (WORKS EVERYWHERE)
+vim.keymap.set('n', '<leader>cc', toggle_comment_line, { desc = 'COMMENT TOGGLE CURRENT LINE' })
+vim.keymap.set('v', '<leader>cc', toggle_comment_visual, { desc = 'COMMENT TOGGLE VISUAL SELECTION' })
+
