@@ -9,6 +9,12 @@ return {
         local update_timer = nil
         local last_background = vim.o.background
 
+        -- CHECK IF NVIM WAS OPENED WITH A FILE ARGUMENT
+        local opened_with_file = false
+        if vim.fn.argc() > 0 then
+            opened_with_file = true
+        end
+
         -- GET THEME COLORS
         local function get_theme_colors()
             local is_dark = vim.o.background == 'dark'
@@ -164,7 +170,8 @@ return {
                     show_close_icon = false,
                     separator_style = { ' ', ' ' },
                     enforce_regular_tabs = false,
-                    always_show_bufferline = true,
+                    -- CONDITION: DO NOT SHOW BUFFERLINE WHEN OPENING A FILE DIRECTLY
+                    always_show_bufferline = not opened_with_file,
                     indicator = { style = 'none' },
                     themable = true,
                 },

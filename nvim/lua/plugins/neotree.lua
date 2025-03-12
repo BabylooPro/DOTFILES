@@ -375,10 +375,15 @@ return {
             vim.cmd 'Neotree close'
         end, { noremap = true, silent = true })
 
-        -- Auto-open neo-tree on startup
+        -- CREATE AUTOCMD FOR WHEN CONFIG IS RELOADED
+        local autocmd_group = vim.api.nvim_create_augroup('NeoTreeInit', { clear = true })
         vim.api.nvim_create_autocmd('VimEnter', {
+            group = autocmd_group,
             callback = function()
-                vim.cmd 'Neotree show position=right'
+                -- DON'T AUTO-OPEN NEOTREE IF A FILE WAS SPECIFIED
+                if not vim.g.opened_with_file then
+                    vim.cmd 'Neotree show position=right'
+                end
             end,
         })
 

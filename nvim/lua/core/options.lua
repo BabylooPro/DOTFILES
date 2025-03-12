@@ -1,3 +1,6 @@
+-- GLOBAL VARIABLES --
+vim.g.opened_with_file = vim.fn.argc() > 0 -- CHECK IF NVIM WAS OPENED WITH A FILE ARGUMENT
+
 -- NUMBERING & DISPLAY --
 vim.wo.number = true -- ENABLE LINE NUMBERS (DEFAULT: FALSE)
 vim.o.relativenumber = true -- ENABLE RELATIVE LINE NUMBERS (DEFAULT: FALSE)
