@@ -152,6 +152,7 @@ This document lists all my keyboard shortcuts available in this Neovim configura
 | `[d`         | n    | Go to previous diagnostic      |
 | `]d`         | n    | Go to next diagnostic          |
 | `<leader>d`  | n    | Open floating diagnostic       |
+| `<leader>fd` | n    | focus full diagnostic display  |
 | `<leader>q`  | n    | Open diagnostics list          |
 | `gd`         | n    | Go to definition               |
 | `gD`         | n    | Go to declaration              |
