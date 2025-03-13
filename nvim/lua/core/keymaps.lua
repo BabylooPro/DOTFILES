@@ -93,3 +93,6 @@ end
 vim.keymap.set('n', '<leader>cc', toggle_comment_line, { desc = 'COMMENT TOGGLE CURRENT LINE' })
 vim.keymap.set('v', '<leader>cc', toggle_comment_visual, { desc = 'COMMENT TOGGLE VISUAL SELECTION' })
 
+-- FIX FOR COMMENT.NVIM INTERFERING WITH VISUAL MODE CLIPBOARD OPERATIONS
+vim.keymap.set('v', 'd', 'd', { noremap = true, desc = 'ENSURE VISUAL DELETE USES DEFAULT BEHAVIOR' })
+
