@@ -32,6 +32,10 @@ return {
         opts = {},
     },
     {
+        -- AUTOMATICALLY RENAME HTML/XML TAGS
+        'AndrewRadev/tagalong.vim',
+    },
+    {
         -- Highlight todo, notes, etc in comments
         'folke/todo-comments.nvim',
         event = 'VimEnter',
