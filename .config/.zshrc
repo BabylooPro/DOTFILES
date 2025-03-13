@@ -42,10 +42,12 @@ clear
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # KEYBINDINGS CONFIGURATION
-bindkey -e                            # SET EMACS KEYBINDINGS MODE
-bindkey '^p' history-search-backward  # SEARCH COMMAND HISTORY BACKWARD (CTRL+P)
-bindkey '^n' history-search-forward   # SEARCH COMMAND HISTORY FORWARD (CTRL+N)
-bindkey '^[w' kill-region             # DELETE TEXT FROM CURSOR POSITION TO PREVIOUS WORD (ALT+W)
+bindkey -e                                          # SET EMACS KEYBINDINGS MODE
+bindkey '^p' history-search-backward                # SEARCH COMMAND HISTORY BACKWARD (CTRL+P)
+bindkey '^n' history-search-forward                 # SEARCH COMMAND HISTORY FORWARD (CTRL+N)
+bindkey '^[w' kill-region                           # DELETE TEXT FROM CURSOR POSITION TO PREVIOUS WORD (ALT+W)
+bindkey "^[[A" history-beginning-search-backward    # UP ARROW SEARCHES HISTORY BACKWARD BASED ON PREFIX
+bindkey "^[[B" history-beginning-search-forward     # DOWN ARROW SEARCHES HISTORY FORWARD BASED ON PREFIX
 
 # HISTORY CONFIGURATION
 HISTSIZE=5000                 # MAXIMUM NUMBER OF ENTRIES IN THE HISTORY FILE
