@@ -46,6 +46,20 @@ vim.keymap.set('i', '<C-e>', function()
     vim.cmd 'startinsert'
 end, { desc = 'Show diagnostic in insert mode' })
 
+-- AUTO-REFRESH LOCATION LIST WHEN DIAGNOSTICS CHANGE
+vim.api.nvim_create_autocmd("DiagnosticChanged", {
+  callback = function()
+    -- CHECK IF LOCATION LIST IS OPEN BEFORE REFRESHING
+    for _, win in pairs(vim.fn.getwininfo()) do
+      if win.loclist == 1 then
+        vim.diagnostic.setloclist()
+        break
+      end
+    end
+  end,
+  desc = "AUTO-REFRESH LOCATION LIST WHEN DIAGNOSTICS CHANGE",
+})
+
 -- DIRECTLY INTERCEPT LSP DIAGNOSTICS
 -- SAVE THE ORIGINAL FUNCTION
 local original_publish_diagnostics = vim.lsp.handlers['textDocument/publishDiagnostics']
