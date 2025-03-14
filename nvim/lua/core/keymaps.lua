@@ -8,6 +8,12 @@ vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 -- GENERAL OPTIONS FOR MAPPINGS --
 local opts = { noremap = true, silent = true }
 
+-- IMPORT KEYMAPS CHEAT SHEET MODULE
+local keymaps_cheatsheet = require("core.utils.keymaps-cheatsheet")
+
+-- ADD KEYMAP FOR KEYMAPS CHEAT SHEET
+vim.keymap.set('n', '<leader>?', keymaps_cheatsheet.show_keymaps_cheatsheet, { desc = 'SHOW KEYMAPS CHEAT SHEET' })
+
 -- FILE OPERATIONS --
 vim.keymap.set('n', '<C-s>', '<cmd> w <CR>', opts) -- SAVE FILE
 vim.keymap.set('n', '<leader>sn', '<cmd>noautocmd w <CR>', opts) -- SAVE FILE WITHOUT AUTO-FORMATTING
