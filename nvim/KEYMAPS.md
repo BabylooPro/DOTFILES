@@ -2,6 +2,8 @@
 
 This document lists all my keyboard shortcuts available in this Neovim configuration, organized by category.
 
+> **TIP:** You can display this cheat sheet directly within Neovim by pressing `<leader>?` (Space + ?) in normal mode!
+
 ## Table of Contents
 
 - [General Navigation](#general-navigation)
@@ -73,7 +75,6 @@ This document lists all my keyboard shortcuts available in this Neovim configura
 | `<leader>e`  | n    | Toggle focus between Neo-tree and code |
 | `<leader>ee` | n    | Close Neo-tree                         |
 | `<leader>cR` | n    | Rename file (with LSP support)         |
-| `<leader>q`  | n    | Quickly open a file (QuickFile)        |
 | `<leader>.`  | n    | Toggle temporary buffer                |
 | `<leader>S`  | n    | Select temporary buffer                |
 | `<leader>fc` | n    | Find config file                       |
@@ -225,6 +226,7 @@ This document lists all my keyboard shortcuts available in this Neovim configura
 
 | Shortcut     | Mode | Description                    |
 | ------------ | ---- | ------------------------------ |
+| `<leader>?`  | n    | Show keymaps cheat sheet       |
 | `<leader>n`  | n    | Show notification history      |
 | `<leader>un` | n    | Hide all active notifications  |
 | `<leader>d`  | n    | Open dashboard                 |
