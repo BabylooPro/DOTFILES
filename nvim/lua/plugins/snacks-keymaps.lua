@@ -306,15 +306,17 @@ return {
     },
 
     -- QUICKFILE (NEWLY ENABLED)
-    {
+    -- {
         -- QUICKLY OPENS A FILE (USEFUL FOR LARGE FILES)
         -- OPTIMIZED FILE OPENER THAT HANDLES LARGE FILES EFFICIENTLY
-        '<leader>q',
-        function()
-            require('snacks').quickfile()
-        end,
-        desc = 'Quick File',
-    },
+        -- COMMENTED OUT DUE TO ERROR: 'QUICKFILE' IS A TABLE, NOT A FUNCTION
+        -- AND THIS CONFLICTS WITH DIAGNOSTIC MAPPING ON <LEADER>Q
+        -- '<leader>q',
+        -- function()
+        --     require('snacks').quickfile()
+        -- end,
+        -- desc = 'Quick File',
+    -- },
 
     -- SCOPE (NEWLY ENABLED)
     {
