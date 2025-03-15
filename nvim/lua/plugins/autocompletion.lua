@@ -33,6 +33,7 @@ return { -- Autocompletion
         'hrsh7th/cmp-nvim-lsp',
         'hrsh7th/cmp-buffer',
         'hrsh7th/cmp-path',
+        'hrsh7th/cmp-cmdline', -- COMMAND LINE COMPLETION
     },
     config = function()
         -- See `:help cmp`
@@ -170,5 +171,23 @@ return { -- Autocompletion
                 end,
             },
         }
+
+        -- SETUP CMDLINE COMPLETION FOR : COMMANDS
+        cmp.setup.cmdline(':', {
+            mapping = cmp.mapping.preset.cmdline(),
+            sources = cmp.config.sources({
+                { name = 'path' }
+            }, {
+                { name = 'cmdline' }
+            })
+        })
+
+        -- SETUP CMDLINE COMPLETION FOR / AND ? (SEARCH)
+        cmp.setup.cmdline({ '/', '?' }, {
+            mapping = cmp.mapping.preset.cmdline(),
+            sources = {
+                { name = 'buffer' }
+            }
+        })
     end,
 }
