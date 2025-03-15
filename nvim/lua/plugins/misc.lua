@@ -1,3 +1,5 @@
+local keywords = [[QUESTION,EXCLAMATION,STAR]]
+
 -- Standalone plugins with less than 10 lines of config go here
 return {
     {
@@ -36,11 +38,54 @@ return {
         'AndrewRadev/tagalong.vim',
     },
     {
+        -- INFO:
+        -- WARN:
+        -- FIX:
+        -- TODO:
+        -- HACK:
+        -- PERF:
+        -- ?
+        -- !
+        -- *
+        -- question
+        -- help
+        -- alert
+        -- important
+        -- highlight
+        -- star
+
         -- Highlight todo, notes, etc in comments
         'folke/todo-comments.nvim',
-        event = 'VimEnter',
+        event = 'VeryLazy',
         dependencies = { 'nvim-lua/plenary.nvim' },
-        opts = { signs = false },
+        -- opts = { signs = false },
+        enabled = true,
+
+        keys = {
+            {"<leader>fy", "<cmd>Find Todo keywords="..keywords.."<cr>"},
+        },
+
+        opts = function(_, opts)
+            opts.signs = false
+            opts.merge_keywords = true
+            opts.keywords = {
+                ["?"] = { icon = " ", color = "warning", alt = { "question", "help" } },
+                ["!"] = { icon = " ", color = "error", alt = { "alert", "important" } },
+                ["*"] = { icon = " ", color = "hint", alt = { "highlight", "star" } },
+            }
+        end,
+
+        config = function()
+            require("todo-comments").setup()
+
+            vim.api.nvim_create_autocmd("ColorScheme", {
+                callback = function()
+                    vim.cmd("highlight Todo? guifg=#ffcc00 guibg=NONE gui=bold")
+                    vim.cmd("highlight Todo! guifg=#ff3300 guibg=NONE gui=bold")
+                    vim.cmd("highlight Todo* guifg=#ffcc00 guibg=NONE gui=bold")
+                end,
+            })
+        end,
     },
     {
         -- High-performance color highlighter
