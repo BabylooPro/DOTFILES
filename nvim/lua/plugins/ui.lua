@@ -169,6 +169,36 @@ return {
                     },
                     opts = { skip = true },
                 },
+                
+                -- ROUTES FOR COMMON OPERATIONS TO SHOW AS INFO INSTEAD OF ERROR
+                {
+                    filter = {
+                        event = 'msg_show',
+                        find = 'lines yanked',
+                    },
+                    opts = { level = vim.log.levels.INFO },
+                },
+                {
+                    filter = {
+                        event = 'msg_show',
+                        find = 'formatting',
+                    },
+                    opts = { level = vim.log.levels.INFO },
+                },
+                {
+                    filter = {
+                        event = 'msg_show',
+                        find = 'written',
+                    },
+                    opts = { level = vim.log.levels.INFO },
+                },
+                {
+                    filter = {
+                        event = 'msg_show',
+                        find = 'change',
+                    },
+                    opts = { level = vim.log.levels.INFO },
+                },
             },
         },
     },
