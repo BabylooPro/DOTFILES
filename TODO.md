@@ -2,13 +2,13 @@
 
 **_Bugs to fix_**
 
-- [ ] **fix(neovim):** ![MID][mid] prevent triple theme flash on Neovim startup
-
----
-
 **_New features to add_**
 
 - [ ] **add(dotfiles):** better configure GNU Stow for cross-platform dotfiles management
+
+**_change features_**
+
+-
 
 #### IN PROGRESS
 
@@ -16,6 +16,10 @@
 
 #### DONE
 
+- [x] **added(neovim):** markdown preview plugin with <leader>md shortcut
+- [x] **fixed(zshrc):** improve fzf-tab directory preview for cd command
+- [x] **modified(neovim):** center <leader>sf floating window display
+- [x] **fixed(neovim):** prevent triple theme flash on Neovim startup
 - [x] **added(neovim):** automatic tag closing and automatic tag renaming plugins
 
 [high]: https://img.shields.io/badge/-HIGH-red
