@@ -24,7 +24,7 @@ return {
                     c = { fg = colors.comment, bg = colors.bg },
                 },
                 insert = {
-                    a = { fg = colors.fg, bg = colors.highlight, gui = 'bold' },
+                    a = { fg = colors.fg, bg = colors.line, gui = 'bold' },
                     b = { fg = colors.gray, bg = colors.bg },
                 },
                 visual = {
@@ -36,7 +36,7 @@ return {
                     b = { fg = colors.gray, bg = colors.bg },
                 },
                 command = {
-                    a = { fg = colors.fg, bg = colors.highlight, gui = 'bold' },
+                    a = { fg = colors.fg, bg = colors.line, gui = 'bold' },
                     b = { fg = colors.gray, bg = colors.bg },
                 },
                 inactive = {
