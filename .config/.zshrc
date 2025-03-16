@@ -66,7 +66,7 @@ setopt hist_find_no_dups      # AVOID SHOWING DUPLICATES WHEN SEARCHING HISTORY
 zstyle ":completion:*" matcher-list "m:{a-z}={A-Za-z}"
 zstyle ":completion:*" list-color "${(s.:.)LS_COLORS}"
 zstyle ":completion:*" menu no
-zstyle ":fzf-tab:complete:cd:*" fzf-preview "ls --color $realpath"
+zstyle ":fzf-tab:complete:cd:*" fzf-preview 'ls -la --color=always ${(Q)realpath}'
 
 # AMAZON Q POST BLOCK #! DISABLED FOR TESTING WITHOUT
 # [[ -f "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh" ]] && builtin source "${HOME}/Library/Application Support/amazon-q/shell/zshrc.post.zsh"
