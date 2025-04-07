@@ -25,12 +25,20 @@ return {
 
         local sources = {
             diagnostics.checkmake,
-            formatting.prettier.with { filetypes = { 'html', 'json', 'yaml', 'markdown' } },
+            formatting.prettier.with { 
+                filetypes = { 'html', 'json', 'yaml', 'markdown', 'typescript', 'javascript', 'typescriptreact', 'javascriptreact' },
+                extra_args = { 
+                    '--tab-width', '4',
+                    '--print-width', '160',
+                    '--use-tabs', 'false',
+                    '--end-of-line', 'lf'
+                }
+            },
             formatting.stylua,
-            formatting.shfmt.with { args = { '-i', '4' } },
+            formatting.shfmt.with { args = { '-i', '4', '-ln', 'bash' } },
             formatting.terraform_fmt,
-            formatting.csharpier, -- C# FORMATTER
-            require('none-ls.formatting.ruff').with { extra_args = { '--extend-select', 'I' } },
+            formatting.csharpier.with { extra_args = { '--indent-size', '4', '--line-length', '160' } },
+            require('none-ls.formatting.ruff').with { extra_args = { '--extend-select', 'I', '--line-length', '160', '--indent-width', '4' } },
             require 'none-ls.formatting.ruff_format',
         }
 
