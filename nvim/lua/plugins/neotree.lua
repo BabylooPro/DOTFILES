@@ -248,9 +248,9 @@ return {
                     },
                 },
                 follow_current_file = {
-                    enabled = false, -- This will find and focus the file in the active buffer every time
+                    enabled = true, -- This will find and focus the file in the active buffer every time
                     --               -- the current file is changed while the tree is open.
-                    leave_dirs_open = false, -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
+                    leave_dirs_open = true, -- `false` closes auto expanded dirs, such as with `:Neotree reveal`
                 },
                 group_empty_dirs = false, -- when true, empty folders will be grouped together
                 hijack_netrw_behavior = 'open_default', -- netrw disabled, opening a directory opens neo-tree
@@ -420,6 +420,99 @@ return {
             callback = function()
                 vim.defer_fn(function()
                     require('core.neotree-normalize').resize()
+                end, 10)
+            end,
+        })
+
+        -- AUTO-REVEAL FILE IN NEOTREE WHEN BUFFER IS READ
+        vim.api.nvim_create_autocmd('BufRead', {
+            callback = function()
+                -- DELAY EXECUTION SLIGHTLY TO ENSURE NEOTREE IS READY
+                vim.defer_fn(function()
+                    -- CHECK IF NEOTREE IS OPEN BEFORE RUNNING REVEAL
+                    local windows = vim.api.nvim_list_wins()
+                    local neotree_open = false
+                    local current_win = vim.api.nvim_get_current_win()
+                    
+                    -- CHECK IF NEOTREE IS OPEN BEFORE RUNNING REVEAL
+                    for _, win in ipairs(windows) do
+                        local buf = vim.api.nvim_win_get_buf(win)
+                        if vim.bo[buf].filetype == 'neo-tree' then
+                            neotree_open = true
+                            break
+                        end
+                    end
+                    
+                    -- IF NEOTREE IS OPEN, REVEAL THE FILE
+                    if neotree_open then
+                        -- SAVE CURRENT POSITION
+                        local current_buf = vim.api.nvim_get_current_buf()
+                        local cursor_pos = vim.api.nvim_win_get_cursor(current_win)
+                        
+                        -- REVEAL FILE IN NEOTREE WITHOUT FOCUS
+                        vim.cmd('Neotree reveal')
+                        
+                        -- RESTORE FOCUS TO ORIGINAL WINDOW
+                        vim.api.nvim_set_current_win(current_win)
+                        vim.api.nvim_win_set_cursor(current_win, cursor_pos)
+                    end
+                end, 100)
+            end,
+        })
+        
+        -- CLOSE NEOTREE FOLDERS WHEN BUFFER IS DELETED (FOR <LEADER>X)
+        vim.api.nvim_create_autocmd('BufDelete', {
+            callback = function()
+                vim.defer_fn(function()
+                    -- CHECK IF NEOTREE IS OPEN
+                    local windows = vim.api.nvim_list_wins()
+                    local neotree_open = false
+                    local neotree_win = nil
+                    
+                    -- CHECK IF NEOTREE IS OPEN
+                    for _, win in ipairs(windows) do
+                        local buf = vim.api.nvim_win_get_buf(win)
+                        if vim.bo[buf].filetype == 'neo-tree' then
+                            neotree_open = true
+                            neotree_win = win
+                            break
+                        end
+                    end
+                    
+                    -- IF NEOTREE IS OPEN, CLOSE ALL FOLDERS
+                    if neotree_open then
+                        -- GET CURRENT BUFFER'S FILETYPE
+                        local current_filetypes = {}
+                        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+                            if vim.api.nvim_buf_is_loaded(buf) then
+                                current_filetypes[vim.bo[buf].filetype] = true
+                            end
+                        end
+                        
+                        -- COLLAPSE ALL FOLDERS IF APPROPRIATE
+                        local state = require("neo-tree.sources.manager").get_state("filesystem")
+                        if state then
+                            -- CLOSE ALL DIRECTORIES AVEC LE MAPPING 'z'
+                            -- FIND THE NEOTREE WINDOW
+                            for _, win in ipairs(vim.api.nvim_list_wins()) do
+                                local buf = vim.api.nvim_win_get_buf(win)
+                                if vim.bo[buf].filetype == 'neo-tree' then
+                                    -- SAVE THE ACTIVE WINDOW
+                                    local current_win = vim.api.nvim_get_current_win()
+                                    
+                                    -- TEMPORARY FOCUS ON NEOTREE
+                                    vim.api.nvim_set_current_win(win)
+                                    
+                                    -- SIMULATE THE 'z' KEYPRESS WHICH CLOSES ALL NODES
+                                    vim.cmd('normal z')
+                                    
+                                    -- RETURN TO THE ORIGINAL WINDOW
+                                    vim.api.nvim_set_current_win(current_win)
+                                    break
+                                end
+                            end
+                        end
+                    end
                 end, 10)
             end,
         })
