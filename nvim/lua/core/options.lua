@@ -111,6 +111,18 @@ vim.opt.iskeyword:append '-' -- INCLUDE HYPHENATED WORDS IN SEARCHES (DEFAULT: D
 vim.opt.formatoptions:remove { 'c', 'r', 'o' } -- DISABLE AUTO-INSERTING COMMENT LEADER (DEFAULT: 'CROQL')
 vim.opt.runtimepath:remove '/usr/share/vim/vimfiles' -- SEPARATE VIM PLUGINS FROM NEOVIM (DEFAULT: INCLUDES THIS PATH IF VIM IS INSTALLED)
 
+-- AUTO-SAVE ON FOCUS CHANGE --
+local autosave_group = vim.api.nvim_create_augroup("AutoSave", { clear = true })
+vim.api.nvim_create_autocmd({ "FocusLost", "BufLeave", "WinLeave", "InsertLeave" }, {
+    group = autosave_group,
+    callback = function()
+        -- SAVE ALL MODIFIED BUFFERS WHEN FOCUS CHANGES (EXTERNAL OR INTERNAL) OR LEAVING INSERT MODE
+        -- SILENT! SUPPRESSES ERRORS WHEN SAVING UNNAMED BUFFERS
+        vim.cmd("silent! wall")
+    end,
+    desc = "AUTO-SAVE BUFFERS WHEN FOCUS CHANGES OR LEAVING INSERT MODE",
+})
+
 -- TERMINAL COLOR FIX --
 vim.api.nvim_create_autocmd("TermOpen", {
     pattern = "*",
