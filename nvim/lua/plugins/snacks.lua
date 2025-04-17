@@ -67,47 +67,25 @@ return {
             mouse_enabled = false, -- DISABLES MOUSE INTERACTION IN DASHBOARD
             sections = {
                 { section = 'header' },
-                {
-                    pane = 2,
-                    icon = ' ',
-                    section = 'terminal',
-                    title = 'Keybindings Tips',
-                    cmd = "while true; do clear; echo -e'  <leader>ff    Find Files\\n  <leader>fg    Find in Git Files\\n  <leader>fr    Recent Files\\n  <leader>fb    Find Buffers\\n  <leader>sg    Search (Grep)\\n  <leader>sw    Search Word\\n  <leader>sb    Search Buffer\\n  <leader>z     Toggle Zen Mode\\n  <leader>e     Explorer\\n  <leader>d     Dashboard\\n  <leader>gg    LazyGit\\n  <leader>gb    Git Branches\\n  <leader>gs    Git Status' | sort -R | head -n 1; sleep 5; done",
-                    height = 2,
-                    padding = 1,
-                },
                 { section = 'keys', gap = 1, padding = 1 },
-                { pane = 2, icon = ' ', title = 'Recent Files', section = 'recent_files', indent = 2, padding = 1 },
-                { pane = 2, icon = ' ', title = 'Projects', section = 'projects', indent = 2, padding = 1 },
-                {
-                    pane = 2,
-                    icon = ' ',
-                    title = 'Git Status',
-                    section = 'terminal',
-                    enabled = function()
-                        return require('snacks').git.get_root() ~= nil
-                    end,
-                    cmd = 'git status --short --branch --renames',
-                    height = 3,
-                    padding = 0,
-                    ttl = 5 * 60,
-                    indent = 3,
-                },
-                {
-                    pane = 2,
-                    icon = ' ',
-                    title = 'Git Log',
-                    section = 'terminal',
-                    enabled = function()
-                        return require('snacks').git.get_root() ~= nil
-                    end,
-                    cmd = 'git --no-pager log --oneline --graph --decorate origin/$(git rev-parse --abbrev-ref HEAD)..HEAD',
-                    height = 5,
-                    padding = 1,
-                    ttl = 5 * 60,
-                    indent = 3,
-                },
                 { section = 'startup' },
+                {
+                    section = 'terminal',
+                    cmd = [[
+                      # GET ONLY PROJECT NAME FROM PATH
+                      project_path=$(echo $PWD | sed "s|$HOME/||" | sed 's/.*\///')
+                      green=$(tput setaf 2)
+                      blue=$(tput setaf 4)
+                      reset=$(tput sgr0)
+                      text_colored="${green}📁 $project_path${reset} - ${blue}👤 $(git config user.name)${reset}"
+                      text_length=$(echo "📁 $project_path - 👤 $(git config user.name)" | wc -m)
+                      cols=$(tput cols)
+                      spaces=$(( ($cols - $text_length) / 2 ))
+                      printf "%${spaces}s%s\n" "" "$text_colored"
+                    ]],
+                    height = 1,
+                    padding = 1,
+                },
             },
         },
         explorer = {
