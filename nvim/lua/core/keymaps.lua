@@ -38,10 +38,10 @@ vim.keymap.set('n', '<A-Left>', ':vertical resize -2<CR>', opts) -- DECREASE WID
 vim.keymap.set('n', '<A-Right>', ':vertical resize +2<CR>', opts) -- INCREASE WIDTH
 
 -- STANDARD ARROW KEY NAVIGATION --
-vim.keymap.set('n', '<Up>', 'k', { noremap = true, silent = true }) -- NORMAL UP MOVEMENT
-vim.keymap.set('n', '<Down>', 'j', { noremap = true, silent = true }) -- NORMAL DOWN MOVEMENT
-vim.keymap.set('n', '<Left>', 'h', { noremap = true, silent = true }) -- NORMAL LEFT MOVEMENT
-vim.keymap.set('n', '<Right>', 'l', { noremap = true, silent = true }) -- NORMAL RIGHT MOVEMENT
+vim.keymap.set('n', '<Up>', '<Nop>', { noremap = true, silent = true }) -- DISABLE UP MOVEMENT
+vim.keymap.set('n', '<Down>', '<Nop>', { noremap = true, silent = true }) -- DISABLE DOWN MOVEMENT
+vim.keymap.set('n', '<Left>', '<Nop>', { noremap = true, silent = true }) -- DISABLE LEFT MOVEMENT
+vim.keymap.set('n', '<Right>', '<Nop>', { noremap = true, silent = true }) -- DISABLE RIGHT MOVEMENT
 
 -- BUFFER MANAGEMENT --
 vim.keymap.set('n', '<Tab>', ':bnext<CR>', opts) -- SWITCH TO NEXT BUFFER
