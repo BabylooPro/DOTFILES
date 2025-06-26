@@ -132,3 +132,19 @@ vim.api.nvim_create_autocmd("TermOpen", {
         vim.cmd("setlocal winhighlight=Normal:Terminal")
     end,
 })
+
+-- USE OSC52 TO COPY TO SYSTEM CLIPBOARD OVER SSH; DISABLES PASTE; SETS UNNAMEDPLUS AS DEFAULT --
+vim.g.clipboard = {
+    name = "osc52",
+    copy = {
+        ["+"] = require("vim.ui.clipboard.osc52").copy("+"),
+        ["*"] = require("vim.ui.clipboard.osc52").copy("*"),
+    },
+    paste = {
+        ["+"] = function() end,
+        ["*"] = function() end,
+    },
+    cache_enabled = false,
+}
+vim.opt.clipboard = "unnamedplus"
+
