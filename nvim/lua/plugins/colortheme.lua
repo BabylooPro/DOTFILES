@@ -5,8 +5,14 @@ return {
     config = function()
         -- DETECT SYSTEM THEME
         local function get_system_appearance()
-            local result = vim.fn.system [[osascript -e 'tell application "System Events" to tell appearance preferences to get dark mode']]
-            return result:match("true") or result:match("1")
+            local is_mac = vim.loop.os_uname().sysname == "Darwin"
+            if is_mac then            
+                local result = vim.fn.system [[osascript -e 'tell application "System Events" to tell appearance preferences to get dark mode']]
+                return result:match("true") or result:match("1")
+            end
+
+            -- fallback: always dark on non-macOS
+            return true 
         end
 
         -- CUSTOM DARK THEME CONFIG
